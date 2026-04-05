@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=JetBrains+Mono:wght@400;700&display=swap');
+@import "tw-animate-css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi-Bold.woff2') format('woff2'),
+       url('/fonts/Satoshi-Bold.woff') format('woff');
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi-Black.woff2') format('woff2'),
+       url('/fonts/Satoshi-Black.woff') format('woff');
+  font-weight: 900;
+  font-display: swap;
+}
+
+@layer base {
+  body {
+    background-color: #05050A;
+    color: #F0EEE8;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,h2,h3,h4 {
+    font-family: 'Satoshi', system-ui, sans-serif;
+    letter-spacing: -0.02em;
+  }
+  * { border-color: rgba(255,255,255,0.06); }
+  *:focus-visible {
+    outline: 1px solid rgba(255,255,255,0.3);
+    outline-offset: 2px;
+  }
+  :root {
+    --background: 5 5 10;
+    --foreground: 240 238 232;
+    --card: 13 13 24;
+    --card-foreground: 240 238 232;
+    --popover: 13 13 24;
+    --popover-foreground: 240 238 232;
+    --primary: 204 27 27;
+    --primary-foreground: 240 238 232;
+    --secondary: 26 26 46;
+    --secondary-foreground: 240 238 232;
+    --muted: 74 74 94;
+    --muted-foreground: 138 138 154;
+    --accent: 18 18 31;
+    --accent-foreground: 240 238 232;
+    --destructive: 204 27 27;
+    --destructive-foreground: 240 238 232;
+    --border: 255 255 255 / 0.06;
+    --input: 10 10 21;
+    --ring: 255 255 255 / 0.3;
+    --radius: 0.125rem;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-bg-surface border border-white/[0.06] rounded-lg p-6;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+  }
+  .card:hover { @apply bg-bg-surface2 border-white/[0.10]; }
+  .label {
+    @apply text-[11px] font-medium text-text-muted uppercase tracking-widest font-sans;
+  }
+  .kpi-value {
+    @apply font-mono text-kpi font-bold tracking-tight text-text-primary;
+  }
+  .btn-primary {
+    @apply bg-brand-red hover:bg-brand-red-lt text-white font-sans font-medium
+           text-sm px-5 py-2.5 rounded transition-colors duration-150 cursor-pointer;
+  }
+  .btn-ghost {
+    @apply bg-transparent hover:bg-bg-surface2 text-text-secondary hover:text-text-primary
+           border border-white/[0.06] hover:border-white/[0.10]
+           font-sans font-medium text-sm px-5 py-2.5 rounded
+           transition-all duration-150 cursor-pointer;
+  }
+  .btn-icon {
+    @apply flex items-center justify-center w-8 h-8 rounded
+           bg-transparent hover:bg-bg-surface2 text-text-muted hover:text-text-secondary
+           border border-transparent hover:border-white/[0.06]
+           transition-all duration-150 cursor-pointer;
+  }
+  .badge {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded
+           text-[11px] font-medium uppercase tracking-wider;
+  }
+  .badge-green  { @apply bg-agent-green/10  text-agent-green; }
+  .badge-purple { @apply bg-agent-purple/10 text-agent-purple; }
+  .badge-blue   { @apply bg-agent-blue/10   text-agent-blue; }
+  .badge-amber  { @apply bg-agent-amber/10  text-agent-amber; }
+  .badge-red    { @apply bg-brand-red/10    text-brand-red; }
+  .badge-gold   { @apply bg-brand-gold/10   text-brand-gold; }
+  .badge-muted  { @apply bg-bg-surface3     text-text-muted; }
+  .input {
+    @apply w-full bg-bg-input border border-white/[0.06] rounded
+           px-4 py-3 text-sm text-text-primary placeholder:text-text-muted
+           focus:border-white/[0.18] focus:outline-none transition-colors duration-150;
+  }
+  .watermark-num {
+    @apply absolute font-display font-black pointer-events-none select-none;
+    font-size: 120px;
+    opacity: 0.03;
+    letter-spacing: -0.05em;
+  }
+  .agent-1-border { border-left: 2px solid #1D9E75; }
+  .agent-2-border { border-left: 2px solid #8B7FE8; }
+  .agent-3-border { border-left: 2px solid #4A9EE8; }
+  .agent-4-border { border-left: 2px solid #D4924A; }
+}
+
+@layer utilities {
+  .text-gradient-red {
+    background: linear-gradient(135deg, #E83030, #CC1B1B);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .bg-grid {
+    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+}
+
+::-webkit-scrollbar       { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: #05050A; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.15); }
+
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line { stroke: rgba(255,255,255,0.04); }
+.recharts-text { fill: #8A8A9A !important; }
