@@ -1,0 +1,64 @@
+{
+  "providers": {
+    "anthropic": {
+      "label": "Anthropic",
+      "color": "#D4845A",
+      "logo_text": "ANT",
+      "env_key": "ANTHROPIC_API_KEY",
+      "models": [
+        {
+          "id": "claude-opus-4-6",
+          "label": "Claude Opus 4.6",
+          "description": "Most powerful — best for complex reasoning",
+          "tier": "premium",
+          "context_window": 200000
+        },
+        {
+          "id": "claude-sonnet-4-6",
+          "label": "Claude Sonnet 4.6",
+          "description": "Balanced — recommended for most queries",
+          "tier": "standard",
+          "context_window": 200000,
+          "default": true
+        },
+        {
+          "id": "claude-haiku-4-5-20251001",
+          "label": "Claude Haiku 4.5",
+          "description": "Fastest — best for quick lookups",
+          "tier": "fast",
+          "context_window": 200000
+        }
+      ]
+    },
+    "openai": {
+      "label": "OpenAI",
+      "color": "#19C37D",
+      "logo_text": "OAI",
+      "env_key": "OPENAI_API_KEY",
+      "models": [
+        {
+          "id": "gpt-4o",
+          "label": "GPT-4o",
+          "description": "Most capable — best for complex analysis",
+          "tier": "premium",
+          "context_window": 128000
+        },
+        {
+          "id": "gpt-4o-mini",
+          "label": "GPT-4o Mini",
+          "description": "Fast and cost-efficient",
+          "tier": "standard",
+          "context_window": 128000,
+          "default": true
+        },
+        {
+          "id": "o1-mini",
+          "label": "o1-mini",
+          "description": "Reasoning model — best for ROI analysis",
+          "tier": "reasoning",
+          "context_window": 128000
+        }
+      ]
+    }
+  }
+}
