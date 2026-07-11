@@ -12,6 +12,11 @@ cd ~/cdx
 [ ! -f ".env" ] && echo -e "${RED}Error: .env not found in ~/cdx${NC}" && exit 1
 
 source venv/bin/activate
+
+if [ -f "requirements.txt" ]; then
+  echo -e "${BLUE}→ Installing Python dependencies...${NC}"
+  pip install -r requirements.txt
+fi
 export $(grep -v '^#' .env | xargs 2>/dev/null)
 
 ANTHROPIC_OK=false; OPENAI_OK=false

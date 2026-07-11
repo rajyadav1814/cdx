@@ -3,6 +3,11 @@ cd ~/cdx
 source venv/bin/activate
 export $(grep -v '^#' .env | xargs 2>/dev/null)
 
+if [ -f "requirements.txt" ]; then
+  echo "Installing Python dependencies..."
+  pip install -r requirements.txt
+fi
+
 case "$1" in
   frontend)
     echo "Starting React dev server on http://localhost:5173"
