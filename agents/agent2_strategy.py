@@ -20,14 +20,14 @@ import pandas as pd
 from dotenv import load_dotenv
 
 # ─── Project root on path ────────────────────────────────────────────────────
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, PROJECT_ROOT)
 from model_router import call_llm
 
-load_dotenv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env'))
+load_dotenv(os.path.join(PROJECT_ROOT, '.env'))
 
 # ─── Paths ────────────────────────────────────────────────────────────────────
-ROOT     = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DATA_DIR = os.path.join(ROOT, 'data')
+DATA_DIR = os.path.join(PROJECT_ROOT, 'data')
 OUTPUT   = os.path.join(DATA_DIR, 'agent2_output.csv')
 
 BRAND_CATEGORIES = ["Beverages", "Fashion", "Tech", "Sport", "Finance"]

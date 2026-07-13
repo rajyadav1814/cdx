@@ -11,9 +11,9 @@ import os
 import pandas as pd
 import numpy as np
 
-# ─── Paths ───────────────────────────────────────────────────────────────────
-ROOT     = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DATA_DIR = os.path.join(ROOT, 'data')
+# ─── Paths ─────────────────────────────────────────────────────────────────── #
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_DIR = os.path.join(PROJECT_ROOT, 'data')
 OUTPUT   = os.path.join(DATA_DIR, 'scores_weekly.csv')
 
 # ─── Load source CSVs ────────────────────────────────────────────────────────
