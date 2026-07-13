@@ -1,0 +1,101 @@
+artist_id,name,country,genre,label,spotify_monthly_listeners,social_blade_followers,youtube_subscribers
+ART_001,Peso Pluma,MX,corridos tumbados,Universal Music Latin,82457319,18148507,11892014
+ART_002,Bad Bunny,PR,reggaeton/trap,Def Jam Latin,74169632,45425648,25176699
+ART_003,Fuerza Regida,MX,corridos tumbados,Universal Music Latin,38596112,9047993,7775639
+ART_004,Karol G,CO,reggaeton/pop latino,Interscope Latin,53965553,61302222,22004712
+ART_005,J Balvin,CO,reggaeton,Def Jam Latin,31393966,53349489,18107916
+ART_006,Beéle,CO,pop urbano,Sony Music Latin,24043143,5735142,3211426
+ART_007,Ryan Castro,CO,pop urbano,Sony Music Latin,18222789,4019065,2935475
+ART_008,Tito Double P,MX,corridos tumbados,Universal Music Latin,22174362,6160382,4043498
+ART_009,Junior H,MX,corridos tumbados,Universal Music Latin,19347481,7351631,5115291
+ART_010,El Bogueto,AR,urbano latino,Universal Music Latin,16725767,3954209,2108712
+ART_011,Bizarrap,AR,trap/electronic,Universal Music Latin,35429979,12110271,18026084
+ART_012,Blessd,CO,reggaeton/trap,Def Jam Latin,15283869,5075221,3407077
+ART_013,Quevedo,ES,trap/flamenco urbano,Sony Music Latin,21276699,8339348,6188256
+ART_014,Omar Courtz,DO,reggaeton/dembow,Def Jam Latin,12037129,3226185,1767299
+ART_015,ROSALÍA,ES,flamenco urbano,Sony Music Latin,27695246,21814661,8750405
+ART_016,Ozuna,PR,reggaeton/trap,Def Jam Latin,25722102,29521201,11893427
+ART_017,Rauw Alejandro,PR,pop urbano,Sony Music Latin,23124829,12929712,7162612
+ART_018,Romeo Santos,US-DO,bachata,Sony Music Latin,18779225,18822903,9971168
+ART_019,Neton Vega,MX,norteño/sierreño,Sony Music Latin,14082899,3113532,2763167
+ART_020,Herencia De Grandes,MX,banda/norteño,Warner Latin,11100815,2663647,1890838
+ART_021,Omar Camacho,MX,sierreño,Sony Music Latin,9991893,2413439,1703872
+ART_022,Lenin Ramírez,MX,banda,Warner Latin,8965722,2128799,1516559
+ART_023,Kapo,CO,pop urbano,Sony Music Latin,8111127,1864439,1290403
+ART_024,Rels B,ES,pop urbano,Sony Music Latin,10897805,3756069,2646062
+ART_025,BeatBoy,MX,sierreño,Sony Music Latin,6496350,1588139,986093
+ART_026,Virlan Garcia,MX,corridos,Sony Music Latin,7070359,1829847,1198024
+ART_027,Nanpa Básico,CO,pop urbano,Sony Music Latin,5745452,1385811,872135
+ART_028,La T y La M,AR,cumbia/pop,Warner Latin,7825026,2006766,1422278
+ART_029,Roze Oficial,AR,cumbia/pop,Warner Latin,6175051,1483159,999503
+ART_030,Max Carra,AR,cumbia,Warner Latin,5602133,1278727,805145
+ART_031,Kybba,CO,dancehall/pop,Interscope Latin,4823491,1105607,728411
+ART_032,Maluma,CO,reggaeton/pop,Sony Music Latin,23925273,62882630,16919501
+ART_033,Myke Towers,PR,reggaeton/trap,Def Jam Latin,20396897,8509898,5399868
+ART_034,Jhay Cortez,PR,R&B/reggaeton,Interscope Latin,13187605,4314020,3127369
+ART_035,Anuel AA,PR,trap latino,Def Jam Latin,16116294,23034012,9609528
+ART_036,Eladio Carrión,PR,trap/rap,Def Jam Latin,12067661,5808326,4189040
+ART_037,Sech,PA,reggaeton/pop,Sony Music Latin,9182970,4683502,3045102
+ART_038,Mora,PR,trap/urbano,Sony Music Latin,7429016,2800065,1875577
+ART_039,Ovy On The Drums,CO,producción/urbano,Universal Music Latin,18297092,3247426,2083069
+ART_040,Arcángel,PR,reggaeton/trap,Def Jam Latin,8848910,7432255,3747231
+ART_041,Camilo,CO,pop,Universal Music Latin,22231009,16025202,8493618
+ART_042,Sebastián Yatra,CO,pop latino,Universal Music Latin,21025497,16660388,7149356
+ART_043,Natanael Cano,MX,corridos tumbados,Universal Music Latin,12750127,5899550,6192408
+ART_044,Luis R Conriquez,MX,corridos,Sony Music Latin,10132666,3175361,2652255
+ART_045,Carin León,MX,banda/pop,Interscope Latin,15226805,6412631,4720445
+ART_046,Christian Nodal,MX,regional mexicano,Universal Music Latin,13992154,13758759,7982350
+ART_047,Grupo Frontera,MX,norteño,Sony Music Latin,12127600,4827164,3396638
+ART_048,Gera MX,MX,rap/hip-hop,Def Jam Latin,6813546,1882144,1420856
+ART_049,MC Davo,MX,rap/hip-hop,Def Jam Latin,4187087,1087319,831304
+ART_050,Yahritza Y Su Esencia,MX,regional mexicano,Universal Music Latin,9486454,3556965,2778912
+ART_051,Grupo Firme,MX,regional mexicano,Universal Music Latin,17336701,9154555,9775735
+ART_052,Régulo Molina,MX,sierreño,Sony Music Latin,5103585,1181808,899978
+ART_053,Oscar Maydon,MX,corridos tumbados,Universal Music Latin,7749482,2007064,1483806
+ART_054,W Sound,CO,producción/reggaeton,Interscope Latin,11865704,2653667,1909963
+ART_055,PEDRO SAMPAIO,BR,funk/baile funk,Universal Music Latin,9396997,4877840,3651787
+ART_056,Ñengo Flow,PR,reggaeton/trap,Def Jam Latin,6191856,3661224,2214870
+ART_057,JC Reyes,DO,reggaeton/dembow,Def Jam Latin,5338275,1576467,1017420
+ART_058,YOVNGCHIMI,DO,dembow/reggaeton,Def Jam Latin,4713356,1398469,890018
+ART_059,Dei V,PR,reggaeton/trap,Def Jam Latin,8199629,2271517,1574203
+ART_060,Aitana,ES,pop,Universal Music Latin,13961388,7776156,3894855
+ART_061,Prince Royce,US-DO,bachata/pop,Universal Music Latin,11100793,14097084,5810389
+ART_062,Cauty,CO,reggaeton/pop,Sony Music Latin,5116470,1494157,943893
+ART_063,WOS,AR,rap/freestyle,Universal Music Latin,6796928,3068833,2370260
+ART_064,El Alfa,DO,dembow,Def Jam Latin,8382734,6878439,4063681
+ART_065,Lunay,PR,reggaeton,Def Jam Latin,5741955,3457564,2095222
+ART_066,Jay Wheeler,PR,R&B/pop,Interscope Latin,9332976,3807649,2455058
+ART_067,Bryant Myers,PR,trap latino,Def Jam Latin,7241796,4256452,3158155
+ART_068,Alex Rose,VE,reggaeton/pop,Sony Music Latin,7017677,3650212,2367965
+ART_069,Dalex,PR,reggaeton/pop,Sony Music Latin,4797243,2075954,1394458
+ART_070,Zion & Lennox,PR,reggaeton,Def Jam Latin,5402899,4378699,2956295
+ART_071,Nicky Jam,PR,reggaeton,Def Jam Latin,12877905,18204530,8185242
+ART_072,Don Omar,PR,reggaeton,Def Jam Latin,9769818,8859146,5405029
+ART_073,Chencho Corleone,PR,reggaeton/trap,Def Jam Latin,16035691,5951544,4339244
+ART_074,Jhayco,PR,pop/R&B,Interscope Latin,13886156,5704990,3812035
+ART_075,Bad Gyal,ES,dancehall/reggaeton,Sony Music Latin,8614515,3433724,2161030
+ART_076,Residente,PR,hip-hop/rap,Def Jam Latin,6421549,3100353,3752202
+ART_077,Kali Uchis,US-CO,R&B/pop,Interscope Latin,17753351,5805057,3244574
+ART_078,Shakira,CO,pop/rock latino,Sony Music Latin,35547587,86326920,16112136
+ART_079,Daddy Yankee,PR,reggaeton,Def Jam Latin,21766979,29543863,15234172
+ART_080,Grupo Menos É Mais,BR,forró/axé,Warner Latin,8809652,4215879,3114803
+ART_081,Mc Jacaré,BR,funk,Universal Music Latin,7575444,3411379,2602369
+ART_082,Panda,BR,sertanejo,Universal Music Latin,9359971,4545583,3832861
+ART_083,Gusttavo Lima,BR,sertanejo,Universal Music Latin,10885021,17924965,9464555
+ART_084,SIMONE MENDES,BR,sertanejo,Universal Music Latin,9919998,13897059,6868507
+ART_085,Nigga,PA,reggaeton,Def Jam Latin,4029897,2196329,1631901
+ART_086,Lenny Tavárez,PR,reggaeton/pop,Sony Music Latin,4691281,2064153,1482789
+ART_087,Paulo Londra,AR,trap/pop,Universal Music Latin,7726742,5697050,4263985
+ART_088,Trueno,AR,hip-hop/pop,Universal Music Latin,5989507,2884865,2071250
+ART_089,C. Tangana,ES,pop urbano,Sony Music Latin,8309468,3730123,2812507
+ART_090,Duki,AR,trap/reggaeton,Universal Music Latin,13253361,7848040,6372034
+ART_091,María Becerra,AR,pop urbano,Sony Music Latin,16202946,8828578,5334638
+ART_092,TINI,AR,pop,Universal Music Latin,17298472,13795203,7089243
+ART_093,Maldy,PR,reggaeton,Def Jam Latin,3740269,1803832,1189072
+ART_094,Dimelo Flow,CO,reggaeton/pop,Sony Music Latin,4318030,1916538,1383401
+ART_095,Jhon Álex Castaño,CO,corrido colombiano,Sony Music Latin,3619330,1089615,839614
+ART_096,Chuyin,MX,sierreño,Sony Music Latin,4572960,1216612,855811
+ART_097,Angel Almaguer,MX,sierreño,Sony Music Latin,3888077,991067,695900
+ART_098,Victor Mendivil,MX,sierreño,Sony Music Latin,5256392,1407678,970668
+ART_099,Corina Smith,VE,reggaeton/pop,Sony Music Latin,3432807,951963,648119
+ART_100,Paloma Mami,CL,pop urbano,Sony Music Latin,4705856,1572815,1116856
