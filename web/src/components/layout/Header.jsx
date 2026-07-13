@@ -3,23 +3,24 @@ import { Sun, Moon } from 'lucide-react'
 import LogoImage from '@/components/shared/LogoImage'
 
 export default function Header() {
-  const [isDark, setIsDark] = useState(true)
+  const [isDark, setIsDark] = useState(() => {
+    const saved = localStorage.getItem('cdx-theme')
+    if (saved) return saved === 'dark'
+    return document.documentElement.classList.contains('dark')
+  })
 
   useEffect(() => {
-    // Check initial state from HTML class
-    const isDarkMode = document.documentElement.classList.contains('dark')
-    setIsDark(isDarkMode)
-  }, [])
-
-  const toggleTheme = () => {
     const root = document.documentElement
     if (isDark) {
-      root.classList.remove('dark')
-      setIsDark(false)
-    } else {
       root.classList.add('dark')
-      setIsDark(true)
+    } else {
+      root.classList.remove('dark')
     }
+    localStorage.setItem('cdx-theme', isDark ? 'dark' : 'light')
+  }, [isDark])
+
+  const toggleTheme = () => {
+    setIsDark(prev => !prev)
   }
 
   return (
