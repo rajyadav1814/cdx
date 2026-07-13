@@ -137,18 +137,6 @@ export default function WorkflowBanner({ activePanel, onNavigate, summary }) {
           </div>
         )
       })}
-
-      {/* Right label */}
-      <div className="flex items-center gap-3 px-5 flex-shrink-0 ml-auto">
-        <div
-          style={{
-            width: 1,
-            height: 16,
-            backgroundColor: 'var(--border-hover)',
-          }}
-        />
-        <span className="label text-brand-gold">↺ LEARNING LOOP</span>
-      </div>
     </div>
   )
 }
