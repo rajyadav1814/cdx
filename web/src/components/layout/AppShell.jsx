@@ -50,7 +50,6 @@ export default function AppShell({ children, activePanel, onNavigate, summary })
             overflow: 'hidden',
           }}
         >
-          {children}
         </main>
       </div>
     </NavigationContext.Provider>
