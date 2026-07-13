@@ -22,7 +22,7 @@ export default function MomentumBarChart({ data }) {
   return (
     <div className="card flex flex-col gap-3">
       <SectionLabel>TOP ARTISTS — MOMENTUM SCORE</SectionLabel>
-      <div style={{ height: 280, backgroundColor: 'var(--bg-surface)', borderRadius: 2, padding: '8px 0' }}>
+      <div style={{ height: 240, backgroundColor: 'var(--bg-surface)', borderRadius: 2, padding: '8px 0' }}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={top8}
