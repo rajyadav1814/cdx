@@ -22,6 +22,16 @@ DATA_DIR = os.path.join(PROJECT_ROOT, 'data')
 WEB_DIST = os.path.join(PROJECT_ROOT, 'web', 'dist')
 PORT = int(os.environ.get('PORT', 8000))
 
+# Ensure critical directories exist at startup
+if not os.path.exists(DATA_DIR):
+    print(f"ERROR: Data directory not found at {DATA_DIR}. Please ensure it exists and contains the necessary CSVs.", file=sys.stderr)
+    sys.exit(1)
+if not os.path.exists(WEB_DIST):
+    print(f"WARNING: Web distribution directory not found at {WEB_DIST}. Static files may not be served correctly. "
+          "Run 'bash dev.sh build' first if you intend to serve the frontend from this server.", file=sys.stderr)
+    # Do not exit, as the API might still be functional independently.
+
+
 # ─── model registry (loaded once at startup) ───────────────────────────────────
 with open(os.path.join(PROJECT_ROOT, 'models.json')) as _f:
     MODEL_REGISTRY = json.load(_f)
@@ -240,10 +250,29 @@ def api_chat_clear(session_id: str = ''):
 @app.post("/api/run_pipeline")
 def api_run_pipeline():
     global _pipeline_process, _pipeline_status, _pipeline_last_run
-    venv_python = os.path.join(PROJECT_ROOT, 'venv', 'bin', 'python3')
+    
+    venv_bin_path = os.path.join(PROJECT_ROOT, 'venv', 'bin')
+    venv_python_executable = None
+
+    # Try 'python3' first within the venv
+    python3_path = os.path.join(venv_bin_path, 'python3')
+    if os.path.exists(python3_path):
+        venv_python_executable = python3_path
+    else:
+        # If 'python3' not found, try 'python' within the venv
+        python_path = os.path.join(venv_bin_path, 'python')
+        if os.path.exists(python_path):
+            venv_python_executable = python_path
+        else:
+            raise HTTPException(
+                status_code=500,
+                detail=f"Virtual environment Python executable not found at '{python3_path}' or '{python_path}'. "
+                       "Please ensure your virtual environment is correctly set up and activated."
+            )
+
     script = os.path.join(PROJECT_ROOT, 'agents', 'run_all_agents.py')
     _pipeline_process = subprocess.Popen(
-        [venv_python, script],
+        [venv_python_executable, script],
         cwd=PROJECT_ROOT,
         env={**os.environ, 'PYTHONPATH': PROJECT_ROOT}
     )
