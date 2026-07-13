@@ -1,8 +1,9 @@
 import sys, os
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, PROJECT_ROOT)
 from model_router import call_llm, get_models_for_frontend
 from dotenv import load_dotenv
-load_dotenv(os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env'))
+load_dotenv(os.path.join(PROJECT_ROOT, '.env'))
 
 import json
 import subprocess
@@ -12,7 +13,6 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 
 import pandas as pd
 
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(PROJECT_ROOT, 'data')
 WEB_DIST = os.path.join(PROJECT_ROOT, 'web', 'dist')
 PORT = int(os.environ.get('PORT', 8000))
