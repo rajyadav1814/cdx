@@ -340,16 +340,52 @@ class CSIEHandler(BaseHTTPRequestHandler):
     # ── pipeline endpoints ────────────────────────────────────────────────────
     def api_run_pipeline(self):
         global _pipeline_process, _pipeline_status, _pipeline_last_run
-        venv_python = os.path.join(PROJECT_ROOT, 'venv', 'bin', 'python3')
+        
+        venv_bin_path = os.path.join(PROJECT_ROOT, 'venv', 'bin')
+        venv_python_executable = None
+
+        # Try 'python3' first within the venv
+        python3_path = os.path.join(venv_bin_path, 'python3')
+        if os.path.exists(python3_path):
+            venv_python_executable = python3_path
+        else:
+            # If 'python3' not found, try 'python' within the venv
+            python_path = os.path.join(venv_bin_path, 'python')
+            if os.path.exists(python_path):
+                venv_python_executable = python_path
+            else:
+                # If neither is found, it's an error as per CLAUDE.md
+                error_msg = (
+                    f"Virtual environment Python executable not found at "
+                    f"'{python3_path}' or '{python_path}'. "
+                    f"Please ensure your virtual environment is correctly set up."
+                )
+                print(f"ERROR: {error_msg}")
+                self.send_error_json(error_msg, 500)
+                _pipeline_status = 'error'
+                return
+
         script = os.path.join(PROJECT_ROOT, 'agents', 'run_all_agents.py')
-        _pipeline_process = subprocess.Popen(
-            [venv_python, script],
-            cwd=PROJECT_ROOT,
-            env={**os.environ, 'PYTHONPATH': PROJECT_ROOT}
-        )
-        _pipeline_status = 'running'
-        _pipeline_last_run = now_iso()
-        self.send_json({'status': 'started', 'timestamp': _pipeline_last_run})
+        
+        try:
+            _pipeline_process = subprocess.Popen(
+                [venv_python_executable, script],
+                cwd=PROJECT_ROOT,
+                env={**os.environ, 'PYTHONPATH': PROJECT_ROOT}
+            )
+            _pipeline_status = 'running'
+            _pipeline_last_run = now_iso()
+            self.send_json({'status': 'started', 'timestamp': _pipeline_last_run})
+        except FileNotFoundError:
+            error_msg = f"Failed to start pipeline: Python executable '{venv_python_executable}' not found."
+            print(f"ERROR: {error_msg}")
+            self.send_error_json(error_msg, 500)
+            _pipeline_status = 'error'
+        except Exception as e:
+            error_msg = f"An unexpected error occurred while starting the pipeline: {e}"
+            print(f"ERROR: {error_msg}")
+            self.send_error_json(error_msg, 500)
+            _pipeline_status = 'error'
 
     def api_pipeline_status(self):
         global _pipeline_process, _pipeline_status, _pipeline_last_run
