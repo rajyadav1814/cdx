@@ -167,12 +167,12 @@ export default function Agent3Analytics({ data, isLoading, artistFocus, onAskAge
                   tickLine={false}
                 />
                 <Tooltip
-                  cursor={{ fill: 'rgba(255,255,255,0.04)' }}
+                  cursor={{ fill: 'var(--border-color)' }}
                   contentStyle={{
-                    background: '#12121F',
-                    border: '1px solid rgba(255,255,255,0.10)',
+                    background: 'var(--bg-surface2)',
+                    border: '1px solid var(--border-hover)',
                     borderRadius: 2,
-                    color: '#F0EEE8',
+                    color: 'var(--text-primary)',
                     fontSize: 12,
                   }}
                   formatter={v => [formatReach(v), 'Reach']}

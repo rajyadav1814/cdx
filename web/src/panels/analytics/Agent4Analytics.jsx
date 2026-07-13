@@ -101,7 +101,7 @@ function ScenarioCell({ value, isBase }) {
         background: '#D4924A15',
         border: '1px solid #D4924A40',
       } : {
-        background: '#12121F',
+        background: 'var(--bg-surface2)',
       }}
     >
       <div className="font-mono text-sm font-bold" style={{ color: isBase ? AGENT_COLOR : '#8A8A9A' }}>
@@ -182,7 +182,7 @@ export default function Agent4Analytics({ data, isLoading, artistFocus, onAskAge
           <div style={{ height: 220, marginTop: 12 }}>
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartData} margin={{ top: 4, right: 16, bottom: 4, left: -8 }}>
-                <CartesianGrid strokeDasharray="2 4" stroke="rgba(255,255,255,0.04)" />
+                <CartesianGrid strokeDasharray="2 4" stroke="var(--border-color)" />
                 <XAxis
                   dataKey="name"
                   tick={{ fill: '#8A8A9A', fontSize: 10 }}
@@ -197,10 +197,10 @@ export default function Agent4Analytics({ data, isLoading, artistFocus, onAskAge
                 />
                 <Tooltip
                   contentStyle={{
-                    background: '#12121F',
-                    border: '1px solid rgba(255,255,255,0.10)',
+                    background: 'var(--bg-surface2)',
+                    border: '1px solid var(--border-hover)',
                     borderRadius: 2,
-                    color: '#F0EEE8',
+                    color: 'var(--text-primary)',
                     fontSize: 11,
                   }}
                   formatter={(v, name) => [`${v}×`, name]}

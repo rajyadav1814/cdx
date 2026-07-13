@@ -95,9 +95,9 @@ export default function ArtistTable({ data }) {
                 >
                   <div
                     className={`grid ${COLS} gap-x-3 px-4 py-2.5 border-b border-white/[0.04] transition-colors duration-100`}
-                    style={{ backgroundColor: isOpen ? '#12121F' : undefined }}
-                    onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#12121F' }}
-                    onMouseLeave={e => { e.currentTarget.style.backgroundColor = isOpen ? '#12121F' : '' }}
+                    style={{ backgroundColor: isOpen ? 'var(--bg-surface2)' : undefined }}
+                    onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'var(--bg-surface2)' }}
+                    onMouseLeave={e => { e.currentTarget.style.backgroundColor = isOpen ? 'var(--bg-surface2)' : '' }}
                   >
                     {/* rank */}
                     <span className="font-mono text-xs text-text-muted self-center">

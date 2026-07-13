@@ -55,7 +55,7 @@ export default function Agent4Panel() {
             onClick={() => setMobileView(view)}
             className="flex-1 py-2 text-sm font-medium bg-transparent border-0 cursor-pointer transition-colors"
             style={{
-              color: mobileView === view ? ACCENT : '#8A8A9A',
+              color: mobileView === view ? ACCENT : 'var(--text-secondary)',
               borderBottom: mobileView === view ? `2px solid ${ACCENT}` : '2px solid transparent',
               fontFamily: 'inherit',
             }}

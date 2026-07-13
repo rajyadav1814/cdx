@@ -48,8 +48,8 @@ export default function ModelSelector({
                 onClick={() => handleProviderClick(pid)}
                 className="px-2.5 py-1 rounded-sm text-[11px] font-medium uppercase tracking-wide transition-colors duration-100 cursor-pointer border-0"
                 style={{
-                  backgroundColor: isActive ? color : '#12121F',
-                  color: isActive ? '#fff' : '#8A8A9A',
+                  backgroundColor: isActive ? color : 'var(--bg-surface2)',
+                  color: isActive ? '#fff' : 'var(--text-secondary)',
                   fontFamily: 'inherit',
                 }}
               >

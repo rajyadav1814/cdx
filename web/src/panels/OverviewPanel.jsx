@@ -288,7 +288,7 @@ export default function OverviewPanel() {
           <KpiCard
             label="ARTISTS IN PIPELINE"
             value={summary?.artists_processed ?? 0}
-            accentColor="#F0EEE8"
+            accentColor="var(--text-primary)"
             watermarkChar="∑"
           />
           <KpiCard

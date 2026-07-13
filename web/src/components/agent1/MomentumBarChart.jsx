@@ -22,7 +22,7 @@ export default function MomentumBarChart({ data }) {
   return (
     <div className="card flex flex-col gap-3">
       <SectionLabel>TOP ARTISTS — MOMENTUM SCORE</SectionLabel>
-      <div style={{ height: 280, backgroundColor: '#0D0D18', borderRadius: 2, padding: '8px 0' }}>
+      <div style={{ height: 280, backgroundColor: 'var(--bg-surface)', borderRadius: 2, padding: '8px 0' }}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={top8}
@@ -32,7 +32,7 @@ export default function MomentumBarChart({ data }) {
             <XAxis
               type="number"
               domain={[0, dataMax => Math.ceil(dataMax * 1.15)]}
-              tick={{ fill: '#8A8A9A', fontSize: 10, fontFamily: 'JetBrains Mono, monospace' }}
+              tick={{ fill: 'var(--text-secondary)', fontSize: 10, fontFamily: 'JetBrains Mono, monospace' }}
               axisLine={false}
               tickLine={false}
             />
@@ -40,17 +40,17 @@ export default function MomentumBarChart({ data }) {
               type="category"
               dataKey="name"
               width={96}
-              tick={{ fill: '#8A8A9A', fontSize: 11 }}
+              tick={{ fill: 'var(--text-secondary)', fontSize: 11 }}
               axisLine={false}
               tickLine={false}
             />
             <Tooltip
-              cursor={{ fill: 'rgba(255,255,255,0.04)' }}
+              cursor={{ fill: 'var(--border-color)' }}
               contentStyle={{
-                background: '#12121F',
-                border: '1px solid rgba(255,255,255,0.10)',
+                background: 'var(--bg-surface2)',
+                border: '1px solid var(--border-hover)',
                 borderRadius: 2,
-                color: '#F0EEE8',
+                color: 'var(--text-primary)',
                 fontSize: 12,
                 fontFamily: 'DM Sans, sans-serif',
               }}
@@ -64,7 +64,7 @@ export default function MomentumBarChart({ data }) {
                 dataKey="score"
                 position="right"
                 style={{
-                  fill: '#8A8A9A',
+                  fill: 'var(--text-secondary)',
                   fontSize: 10,
                   fontFamily: 'JetBrains Mono, monospace',
                 }}

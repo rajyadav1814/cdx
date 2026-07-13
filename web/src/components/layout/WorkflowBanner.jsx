@@ -35,8 +35,8 @@ export default function WorkflowBanner({ activePanel, onNavigate, summary }) {
       className="flex items-center overflow-x-auto"
       style={{
         height: 56,
-        backgroundColor: '#0D0D18',
-        borderBottom: '1px solid rgba(255,255,255,0.06)',
+        backgroundColor: 'var(--bg-surface)',
+        borderBottom: '1px solid var(--border-color)',
         scrollbarWidth: 'none',
       }}
     >
@@ -54,15 +54,15 @@ export default function WorkflowBanner({ activePanel, onNavigate, summary }) {
         className="flex items-center gap-2 px-4 h-full flex-shrink-0 transition-colors"
         style={{
           borderBottom: activePanel === 'overview'
-            ? '2px solid rgba(255,255,255,0.40)'
+            ? '2px solid var(--text-primary)'
             : '2px solid transparent',
           background: activePanel === 'overview'
-            ? 'rgba(255,255,255,0.03)'
+            ? 'var(--bg-surface2)'
             : 'transparent',
         }}
         onMouseEnter={e => {
           if (activePanel !== 'overview')
-            e.currentTarget.style.background = 'rgba(255,255,255,0.03)'
+            e.currentTarget.style.background = 'var(--bg-surface2)'
         }}
         onMouseLeave={e => {
           if (activePanel !== 'overview')
@@ -100,12 +100,12 @@ export default function WorkflowBanner({ activePanel, onNavigate, summary }) {
                   ? `2px solid ${agent.color}`
                   : '2px solid transparent',
                 background: isActive
-                  ? 'rgba(255,255,255,0.03)'
+                  ? 'var(--bg-surface2)'
                   : 'transparent',
               }}
               onMouseEnter={e => {
                 if (!isActive)
-                  e.currentTarget.style.background = 'rgba(255,255,255,0.03)'
+                  e.currentTarget.style.background = 'var(--bg-surface2)'
               }}
               onMouseLeave={e => {
                 if (!isActive)
@@ -144,7 +144,7 @@ export default function WorkflowBanner({ activePanel, onNavigate, summary }) {
           style={{
             width: 1,
             height: 16,
-            backgroundColor: 'rgba(255,255,255,0.10)',
+            backgroundColor: 'var(--border-hover)',
           }}
         />
         <span className="label text-brand-gold">↺ LEARNING LOOP</span>

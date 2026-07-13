@@ -6,11 +6,11 @@ export default {
     extend: {
       colors: {
         bg: {
-          base:     '#05050A',
-          surface:  '#0D0D18',
-          surface2: '#12121F',
-          surface3: '#1A1A2E',
-          input:    '#0A0A15',
+          base:     'var(--bg-base)',
+          surface:  'var(--bg-surface)',
+          surface2: 'var(--bg-surface2)',
+          surface3: 'var(--bg-surface3)',
+          input:    'var(--bg-input)',
         },
         brand: {
           red:      '#CC1B1B',
@@ -31,10 +31,10 @@ export default {
           openai:    '#19C37D',
         },
         text: {
-          primary:   '#F0EEE8',
-          secondary: '#8A8A9A',
-          muted:     '#4A4A5E',
-          accent:    '#CC1B1B',
+          primary:   'var(--text-primary)',
+          secondary: 'var(--text-secondary)',
+          muted:     'var(--text-muted)',
+          accent:    'var(--text-accent)',
         },
       },
       fontFamily: {

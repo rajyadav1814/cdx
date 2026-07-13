@@ -11,7 +11,7 @@ const BRAND_CATEGORIES = ['Tech', 'Fashion', 'Beverage', 'Travel', 'Beauty']
 const AGENT_COLOR = '#8B7FE8'
 
 function matrixCellStyle(score, isActive) {
-  if (!isActive) return { background: '#12121F', color: '#3A3A4A' }
+  if (!isActive) return { background: 'var(--bg-surface2)', color: 'var(--text-muted)' }
   if (score >= 85) return { background: '#1D9E7520', color: '#1D9E75', border: '1px solid #1D9E7540' }
   if (score >= 70) return { background: '#4A9EE820', color: '#4A9EE8', border: '1px solid #4A9EE840' }
   if (score >= 55) return { background: '#D4924A20', color: '#D4924A', border: '1px solid #D4924A40' }
