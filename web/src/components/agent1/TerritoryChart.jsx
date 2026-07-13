@@ -30,7 +30,7 @@ export default function TerritoryChart({ data }) {
   return (
     <div className="card flex flex-col gap-3">
       <SectionLabel>TERRITORY DISTRIBUTION</SectionLabel>
-      <div style={{ height: 280 }}>
+      <div style={{ height: 240 }}>
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
