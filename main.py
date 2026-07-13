@@ -11,13 +11,7 @@ from pydantic import BaseModel
 import pandas as pd
 from dotenv import load_dotenv
 
-# Use realpath (not abspath) so this resolves consistently even when the app
-# is deployed via a symlinked release directory (e.g. capistrano/pm2 style
-# deploys, or Docker images that symlink /app -> /releases/<hash>). abspath()
-# alone leaves the symlink component in place, which can cause PROJECT_ROOT
-# (and therefore DATA_DIR) to point at a path that doesn't match the real
-# on-disk location the server process actually has permissions/data for.
-PROJECT_ROOT = os.path.dirname(os.path.realpath(__file__))
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, PROJECT_ROOT)
 
 from model_router import call_llm, get_models_for_frontend
@@ -364,8 +358,8 @@ def api_chat(agent_key: str, payload: ChatPayload):
 def serve_static(full_path: str):
     if full_path == "":
         full_path = "index.html"
-
-    filepath = os.path.realpath(os.path.join(WEB_DIST, full_path))
+        
+    filepath = os.path.normpath(os.path.join(WEB_DIST, full_path))
     if not filepath.startswith(os.path.realpath(WEB_DIST)):
         raise HTTPException(status_code=403, detail="Forbidden")
 
@@ -378,15 +372,13 @@ def serve_static(full_path: str):
 
 if __name__ == '__main__':
     import uvicorn
-    print(f"""
+    print("""
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 CDX — Commercial Signal Intelligence Engine (CSIE)
 Chromadata × Sony Music Latin (FastAPI Edition)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-PROJECT_ROOT: {PROJECT_ROOT}
-DATA_DIR:     {DATA_DIR}
 API server:   http://localhost:8000/api/
-Static files: {WEB_DIST}/ (production build)
+Static files: ~/cdx/web/dist/ (production build)
 
 Development workflow:
   Terminal 1: python3 main.py   ← FastAPI on :8000
