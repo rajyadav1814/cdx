@@ -240,10 +240,9 @@ def api_chat_clear(session_id: str = ''):
 @app.post("/api/run_pipeline")
 def api_run_pipeline():
     global _pipeline_process, _pipeline_status, _pipeline_last_run
-    venv_python = os.path.join(PROJECT_ROOT, 'venv', 'bin', 'python3')
     script = os.path.join(PROJECT_ROOT, 'agents', 'run_all_agents.py')
     _pipeline_process = subprocess.Popen(
-        [venv_python, script],
+        [sys.executable, script],
         cwd=PROJECT_ROOT,
         env={**os.environ, 'PYTHONPATH': PROJECT_ROOT}
     )
