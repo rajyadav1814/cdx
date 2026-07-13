@@ -34,14 +34,6 @@ export default function AppShell({ children, activePanel, onNavigate, summary })
               borderColor: 'rgba(204,27,27,0.30)',
             }}
           >
-            <span className="text-sm" style={{ color: '#CC1B1B' }}>
-              ⚠ Cannot connect to CDX API server —
-              start it with:{' '}
-              <code className="font-mono">bash dev.sh backend</code>
-            </span>
-            <button className="btn-icon" onClick={() => setBannerDismissed(true)}>
-              <X size={14} />
-            </button>
           </div>
         )}
         <Header />
