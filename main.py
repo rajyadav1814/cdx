@@ -11,7 +11,13 @@ from pydantic import BaseModel
 import pandas as pd
 from dotenv import load_dotenv
 
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+# Use realpath (not abspath) so this resolves consistently even when the app
+# is deployed via a symlinked release directory (e.g. capistrano/pm2 style
+# deploys, or Docker images that symlink /app -> /releases/<hash>). abspath()
+# alone leaves the symlink component in place, which can cause PROJECT_ROOT
+# (and therefore DATA_DIR) to point at a path that doesn't match the real
+# on-disk location the server process actually has permissions/data for.
+PROJECT_ROOT = os.path.dirname(os.path.realpath(__file__))
 sys.path.insert(0, PROJECT_ROOT)
 
 from model_router import call_llm, get_models_for_frontend
@@ -21,16 +27,6 @@ load_dotenv(os.path.join(PROJECT_ROOT, '.env'))
 DATA_DIR = os.path.join(PROJECT_ROOT, 'data')
 WEB_DIST = os.path.join(PROJECT_ROOT, 'web', 'dist')
 PORT = int(os.environ.get('PORT', 8000))
-
-# Ensure critical directories exist at startup
-if not os.path.exists(DATA_DIR):
-    print(f"ERROR: Data directory not found at {DATA_DIR}. Please ensure it exists and contains the necessary CSVs.", file=sys.stderr)
-    sys.exit(1)
-if not os.path.exists(WEB_DIST):
-    print(f"WARNING: Web distribution directory not found at {WEB_DIST}. Static files may not be served correctly. "
-          "Run 'bash dev.sh build' first if you intend to serve the frontend from this server.", file=sys.stderr)
-    # Do not exit, as the API might still be functional independently.
-
 
 # ─── model registry (loaded once at startup) ───────────────────────────────────
 with open(os.path.join(PROJECT_ROOT, 'models.json')) as _f:
@@ -250,29 +246,10 @@ def api_chat_clear(session_id: str = ''):
 @app.post("/api/run_pipeline")
 def api_run_pipeline():
     global _pipeline_process, _pipeline_status, _pipeline_last_run
-    
-    venv_bin_path = os.path.join(PROJECT_ROOT, 'venv', 'bin')
-    venv_python_executable = None
-
-    # Try 'python3' first within the venv
-    python3_path = os.path.join(venv_bin_path, 'python3')
-    if os.path.exists(python3_path):
-        venv_python_executable = python3_path
-    else:
-        # If 'python3' not found, try 'python' within the venv
-        python_path = os.path.join(venv_bin_path, 'python')
-        if os.path.exists(python_path):
-            venv_python_executable = python_path
-        else:
-            raise HTTPException(
-                status_code=500,
-                detail=f"Virtual environment Python executable not found at '{python3_path}' or '{python_path}'. "
-                       "Please ensure your virtual environment is correctly set up and activated."
-            )
-
+    venv_python = os.path.join(PROJECT_ROOT, 'venv', 'bin', 'python3')
     script = os.path.join(PROJECT_ROOT, 'agents', 'run_all_agents.py')
     _pipeline_process = subprocess.Popen(
-        [venv_python_executable, script],
+        [venv_python, script],
         cwd=PROJECT_ROOT,
         env={**os.environ, 'PYTHONPATH': PROJECT_ROOT}
     )
@@ -387,8 +364,8 @@ def api_chat(agent_key: str, payload: ChatPayload):
 def serve_static(full_path: str):
     if full_path == "":
         full_path = "index.html"
-        
-    filepath = os.path.normpath(os.path.join(WEB_DIST, full_path))
+
+    filepath = os.path.realpath(os.path.join(WEB_DIST, full_path))
     if not filepath.startswith(os.path.realpath(WEB_DIST)):
         raise HTTPException(status_code=403, detail="Forbidden")
 
@@ -401,13 +378,15 @@ def serve_static(full_path: str):
 
 if __name__ == '__main__':
     import uvicorn
-    print("""
+    print(f"""
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 CDX — Commercial Signal Intelligence Engine (CSIE)
 Chromadata × Sony Music Latin (FastAPI Edition)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PROJECT_ROOT: {PROJECT_ROOT}
+DATA_DIR:     {DATA_DIR}
 API server:   http://localhost:8000/api/
-Static files: ~/cdx/web/dist/ (production build)
+Static files: {WEB_DIST}/ (production build)
 
 Development workflow:
   Terminal 1: python3 main.py   ← FastAPI on :8000
