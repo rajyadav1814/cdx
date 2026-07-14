@@ -24,9 +24,6 @@ from streamlit_cdx import (
 )
 
 
-configure_page("CDX - Overview")
-
-
 def _agent_card(agent_key: str, count: str, subtitle: str, page: str) -> None:
     agent = AGENTS[agent_key]
     st.markdown(
@@ -60,6 +57,7 @@ def _opportunity_badge(cls: str) -> str:
 
 
 def render_overview() -> None:
+    configure_page("CDX - Overview")
     summary = load_summary()
     agent1 = summary.get("agent1", {})
     agent2 = summary.get("agent2", {})
@@ -178,5 +176,17 @@ def render_overview() -> None:
         st.metric("Highest ROI multiple", f"{float(agent4.get('highest_roi_multiple', 0) or 0):.2f}x")
 
 
-render_overview()
+overview = st.Page(render_overview, title="Overview", icon="🏠")
+agent1 = st.Page("pages/1_Agent_1_Opportunity.py", title="Opportunity Discovery", icon="🎯")
+agent2 = st.Page("pages/2_Agent_2_Strategy.py", title="Strategy Synthesis", icon="♟️")
+agent3 = st.Page("pages/3_Agent_3_Audience.py", title="Audience Fit", icon="👥")
+agent4 = st.Page("pages/4_Agent_4_ROI.py", title="ROI Forecast", icon="📈")
+
+pg = st.navigation(
+    {
+        "Dashboard": [overview],
+        "Agents": [agent1, agent2, agent3, agent4],
+    }
+)
+pg.run()
 
