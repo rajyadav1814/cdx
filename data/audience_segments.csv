@@ -1,201 +1,201 @@
 artist_id,artist_name,market,segment_name,age_range,gender_split_f,gender_split_m,platform_primary,estimated_reach,source_type
-ART_001,Peso Pluma,MX,Core Corridos Tumbados Fans,18-24,37,63,YouTube,28860061,proxy
-ART_001,Peso Pluma,AR,Emerging Corridos Tumbados Fans,18-24,39,61,YouTube,12368597,first-party
-ART_002,Bad Bunny,US-Latin,Core Reggaeton Fans,18-24,60,40,Spotify,8900355,first-party
-ART_002,Bad Bunny,CL,Emerging Reggaeton Fans,18-24,59,41,Spotify,5933570,first-party
-ART_003,Fuerza Regida,MX,Core Corridos Tumbados Fans,18-24,36,64,YouTube,13508639,proxy
-ART_003,Fuerza Regida,AR,Emerging Corridos Tumbados Fans,18-24,43,57,YouTube,5789416,proxy
-ART_004,Karol G,CO,Core Reggaeton Fans,18-34,58,42,Spotify,9713799,proxy
-ART_004,Karol G,BR,Emerging Reggaeton Fans,18-34,55,45,Spotify,6475866,proxy
-ART_005,J Balvin,CO,Core Reggaeton Fans,18-34,54,46,Spotify,5650913,proxy
-ART_005,J Balvin,BR,Emerging Reggaeton Fans,18-34,53,47,Spotify,3767275,first-party
-ART_006,Beéle,CO,Core Pop Urbano Fans,18-34,64,36,Spotify,4327765,proxy
-ART_006,Beéle,ES,Emerging Pop Urbano Fans,18-34,57,43,Spotify,2404314,first-party
-ART_007,Ryan Castro,CO,Core Pop Urbano Fans,18-34,63,37,Spotify,3280102,proxy
-ART_007,Ryan Castro,ES,Emerging Pop Urbano Fans,18-34,59,41,Spotify,1822278,first-party
-ART_008,Tito Double P,MX,Core Corridos Tumbados Fans,18-24,43,57,YouTube,7761026,proxy
-ART_008,Tito Double P,BR,Emerging Corridos Tumbados Fans,18-24,43,57,YouTube,2660923,proxy
-ART_009,Junior H,MX,Core Corridos Tumbados Fans,18-24,39,61,YouTube,6771618,proxy
-ART_009,Junior H,US-Latin,Emerging Corridos Tumbados Fans,18-24,41,59,YouTube,2321697,proxy
-ART_010,El Bogueto,AR,Core Urbano Latino Fans,25-34,50,50,Spotify,2508865,proxy
-ART_010,El Bogueto,PE,Emerging Urbano Latino Fans,25-34,50,50,YouTube,836288,proxy
-ART_011,Bizarrap,AR,Core Trap Fans,25-34,50,50,TikTok,5314496,proxy
-ART_011,Bizarrap,CL,Emerging Trap Fans,25-34,50,50,YouTube,2834398,proxy
-ART_012,Blessd,CO,Core Reggaeton Fans,18-24,56,44,Spotify,2751096,proxy
-ART_012,Blessd,MX,Emerging Reggaeton Fans,18-24,53,47,Spotify,5349354,proxy
-ART_013,Quevedo,ES,Core Trap Fans,25-34,50,50,YouTube,2127669,proxy
-ART_013,Quevedo,CL,Emerging Trap Fans,25-34,50,50,YouTube,1702135,proxy
-ART_014,Omar Courtz,US-Latin,Core Reggaeton Fans,25-34,54,46,Spotify,1444455,proxy
-ART_014,Omar Courtz,ES,Emerging Reggaeton Fans,25-34,51,49,Spotify,1203712,proxy
-ART_015,ROSALÍA,ES,Core Flamenco Urbano Fans,25-34,50,50,YouTube,2769524,proxy
-ART_015,ROSALÍA,BR,Emerging Flamenco Urbano Fans,25-34,50,50,Spotify,3323429,first-party
-ART_016,Ozuna,US-Latin,Core Reggaeton Fans,18-24,53,47,Spotify,3086652,proxy
-ART_016,Ozuna,BR,Emerging Reggaeton Fans,18-24,54,46,Spotify,3086652,proxy
-ART_017,Rauw Alejandro,US-Latin,Core Pop Urbano Fans,18-34,65,35,Spotify,2774979,proxy
-ART_017,Rauw Alejandro,CO,Emerging Pop Urbano Fans,18-34,58,42,Spotify,4162469,proxy
-ART_018,Romeo Santos,US-Latin,Core Bachata Fans,25-34,50,50,TikTok,2253507,proxy
-ART_018,Romeo Santos,BR,Emerging Bachata Fans,25-34,51,49,Spotify,2253507,proxy
-ART_019,Neton Vega,MX,Core Norteño Fans,25-44,40,60,YouTube,4929014,proxy
-ART_019,Neton Vega,AR,Emerging Norteño Fans,25-44,42,58,YouTube,2112434,proxy
-ART_020,Herencia De Grandes,MX,Core Banda Fans,25-44,41,59,Spotify,3885285,proxy
-ART_020,Herencia De Grandes,AR,Emerging Banda Fans,25-44,50,50,YouTube,1665122,proxy
-ART_021,Omar Camacho,MX,Core Sierreño Fans,25-44,37,63,YouTube,3497162,proxy
-ART_021,Omar Camacho,PE,Emerging Sierreño Fans,25-44,45,55,YouTube,499594,proxy
-ART_022,Lenin Ramírez,MX,Core Banda Fans,25-44,47,53,YouTube,3138002,proxy
-ART_022,Lenin Ramírez,CO,Emerging Banda Fans,25-44,49,51,YouTube,1613829,proxy
-ART_023,Kapo,CO,Core Pop Urbano Fans,18-34,64,36,Spotify,1460002,proxy
-ART_023,Kapo,ES,Emerging Pop Urbano Fans,18-34,59,41,Spotify,811112,proxy
-ART_024,Rels B,ES,Core Pop Urbano Fans,18-34,57,43,Spotify,1089780,proxy
-ART_024,Rels B,BR,Emerging Pop Urbano Fans,18-34,63,37,Spotify,1307736,proxy
-ART_025,BeatBoy,MX,Core Sierreño Fans,25-44,43,57,YouTube,2273722,proxy
-ART_025,BeatBoy,BR,Emerging Sierreño Fans,25-44,40,60,YouTube,779562,proxy
-ART_026,Virlan Garcia,MX,Core Corridos Fans,18-24,39,61,YouTube,2474625,proxy
-ART_026,Virlan Garcia,US-Latin,Emerging Corridos Fans,18-24,32,68,YouTube,848443,proxy
-ART_027,Nanpa Básico,CO,Core Pop Urbano Fans,18-34,63,37,Spotify,1034181,proxy
-ART_027,Nanpa Básico,MX,Emerging Pop Urbano Fans,18-34,61,39,Spotify,2010908,proxy
-ART_028,La T y La M,AR,Core Cumbia Fans,25-44,63,37,Spotify,1173753,proxy
-ART_028,La T y La M,ES,Emerging Cumbia Fans,25-44,55,45,Spotify,782502,proxy
-ART_029,Roze Oficial,AR,Core Cumbia Fans,25-44,60,40,Spotify,926257,proxy
-ART_029,Roze Oficial,PE,Emerging Cumbia Fans,25-44,61,39,Spotify,308752,proxy
-ART_030,Max Carra,AR,Core Cumbia Fans,25-44,50,50,TikTok,840319,proxy
-ART_030,Max Carra,US-Latin,Emerging Cumbia Fans,25-44,50,50,Spotify,672255,proxy
-ART_031,Kybba,CO,Core Dancehall Fans,25-34,56,44,Spotify,868228,proxy
-ART_031,Kybba,ES,Emerging Dancehall Fans,25-34,63,37,Spotify,482349,proxy
-ART_032,Maluma,CO,Core Reggaeton Fans,18-34,55,45,Spotify,4306549,proxy
-ART_032,Maluma,ES,Emerging Reggaeton Fans,18-34,50,50,Spotify,2392527,proxy
-ART_033,Myke Towers,US-Latin,Core Reggaeton Fans,18-24,60,40,Spotify,2447627,proxy
-ART_033,Myke Towers,MX,Emerging Reggaeton Fans,18-24,53,47,Spotify,7138913,proxy
-ART_034,Jhay Cortez,US-Latin,Core R&B Fans,25-34,59,41,Spotify,1582512,proxy
-ART_034,Jhay Cortez,BR,Emerging R&B Fans,25-34,51,49,Spotify,1582512,proxy
-ART_035,Anuel AA,US-Latin,Core Trap Latino Fans,18-24,42,58,Spotify,1933955,proxy
-ART_035,Anuel AA,AR,Emerging Trap Latino Fans,18-24,46,54,Spotify,2417444,proxy
-ART_036,Eladio Carrión,US-Latin,Core Trap Fans,18-24,50,50,YouTube,1448119,proxy
-ART_036,Eladio Carrión,CL,Emerging Trap Fans,18-24,50,50,Spotify,965412,proxy
-ART_037,Sech,US-Latin,Core Reggaeton Fans,18-34,54,46,Spotify,1101956,proxy
-ART_037,Sech,ES,Emerging Reggaeton Fans,18-34,53,47,Spotify,918297,proxy
-ART_038,Mora,US-Latin,Core Trap Fans,25-34,50,50,YouTube,891481,proxy
-ART_038,Mora,AR,Emerging Trap Fans,25-34,50,50,TikTok,1114352,proxy
-ART_039,Ovy On The Drums,CO,Core Producción Fans,25-34,50,50,YouTube,3293476,proxy
-ART_039,Ovy On The Drums,BR,Emerging Producción Fans,25-34,50,50,Spotify,2195651,proxy
-ART_040,Arcángel,US-Latin,Core Reggaeton Fans,18-24,56,44,Spotify,1061869,proxy
-ART_040,Arcángel,BR,Emerging Reggaeton Fans,18-24,53,47,Spotify,1061869,proxy
-ART_041,Camilo,CO,Core Pop Fans,25-34,60,40,Spotify,4001581,proxy
-ART_041,Camilo,ES,Emerging Pop Fans,25-34,60,40,Spotify,2223100,proxy
-ART_042,Sebastián Yatra,CO,Core Pop Latino Fans,25-34,61,39,Spotify,3784589,proxy
-ART_042,Sebastián Yatra,US-Latin,Emerging Pop Latino Fans,25-34,59,41,Spotify,2523059,proxy
-ART_043,Natanael Cano,MX,Core Corridos Tumbados Fans,18-24,37,63,YouTube,4462544,proxy
-ART_043,Natanael Cano,ES,Emerging Corridos Tumbados Fans,18-24,44,56,YouTube,1275012,proxy
-ART_044,Luis R Conriquez,MX,Core Corridos Fans,18-24,39,61,YouTube,3546433,proxy
-ART_044,Luis R Conriquez,AR,Emerging Corridos Fans,18-24,40,60,YouTube,1519899,proxy
-ART_045,Carin León,MX,Core Banda Fans,25-44,56,44,Spotify,5329381,proxy
-ART_045,Carin León,AR,Emerging Banda Fans,25-44,59,41,Spotify,2284020,proxy
-ART_046,Christian Nodal,MX,Core Regional Mexicano Fans,25-44,43,57,TikTok,4897253,proxy
-ART_046,Christian Nodal,US-Latin,Emerging Regional Mexicano Fans,25-44,46,54,YouTube,1679058,proxy
-ART_047,Grupo Frontera,MX,Core Norteño Fans,25-34,50,50,Spotify,4244660,proxy
-ART_047,Grupo Frontera,AR,Emerging Norteño Fans,25-34,50,50,TikTok,1819140,proxy
-ART_048,Gera MX,MX,Core Rap Fans,25-34,50,50,YouTube,2384741,proxy
-ART_048,Gera MX,AR,Emerging Rap Fans,25-34,50,50,Spotify,1022031,proxy
-ART_049,MC Davo,MX,Core Rap Fans,25-34,50,50,YouTube,1465480,proxy
-ART_049,MC Davo,AR,Emerging Rap Fans,25-34,50,50,YouTube,628063,proxy
-ART_050,Yahritza Y Su Esencia,MX,Core Regional Mexicano Fans,25-44,50,50,TikTok,3320258,proxy
-ART_050,Yahritza Y Su Esencia,AR,Emerging Regional Mexicano Fans,25-44,48,52,TikTok,1422968,proxy
-ART_051,Grupo Firme,MX,Core Regional Mexicano Fans,25-44,47,53,YouTube,6067845,proxy
-ART_051,Grupo Firme,BR,Emerging Regional Mexicano Fans,25-44,44,56,TikTok,2080404,proxy
-ART_052,Régulo Molina,MX,Core Sierreño Fans,25-44,46,54,YouTube,1786254,proxy
-ART_052,Régulo Molina,US-Latin,Emerging Sierreño Fans,25-44,37,63,YouTube,612430,proxy
-ART_053,Oscar Maydon,MX,Core Corridos Tumbados Fans,18-24,36,64,YouTube,2712318,proxy
-ART_053,Oscar Maydon,ES,Emerging Corridos Tumbados Fans,18-24,37,63,YouTube,774948,proxy
-ART_054,W Sound,CO,Core Producción Fans,25-34,53,47,Spotify,2135826,proxy
-ART_054,W Sound,MX,Emerging Producción Fans,25-34,54,46,Spotify,4152996,proxy
-ART_055,PEDRO SAMPAIO,BR,Core Funk Fans,25-34,50,50,YouTube,1127639,proxy
-ART_055,PEDRO SAMPAIO,ES,Emerging Funk Fans,25-34,50,50,YouTube,939699,proxy
-ART_056,Ñengo Flow,US-Latin,Core Reggaeton Fans,18-24,60,40,Spotify,743022,proxy
-ART_056,Ñengo Flow,CL,Emerging Reggaeton Fans,18-24,51,49,Spotify,495348,proxy
-ART_057,JC Reyes,US-Latin,Core Reggaeton Fans,25-34,55,45,Spotify,640593,proxy
-ART_057,JC Reyes,BR,Emerging Reggaeton Fans,25-34,54,46,Spotify,640593,proxy
-ART_058,YOVNGCHIMI,US-Latin,Core Dembow Fans,18-24,55,45,Spotify,565602,proxy
-ART_058,YOVNGCHIMI,AR,Emerging Dembow Fans,18-24,58,42,Spotify,707003,proxy
-ART_059,Dei V,US-Latin,Core Reggaeton Fans,18-24,54,46,Spotify,983955,proxy
-ART_059,Dei V,ES,Emerging Reggaeton Fans,18-24,55,45,Spotify,819962,proxy
-ART_060,Aitana,ES,Core Pop Fans,25-34,61,39,Spotify,1396138,proxy
-ART_060,Aitana,MX,Emerging Pop Fans,25-34,56,44,Spotify,4886485,proxy
-ART_061,Prince Royce,US-Latin,Core Bachata Fans,25-34,65,35,Spotify,1332095,proxy
-ART_061,Prince Royce,AR,Emerging Bachata Fans,25-34,64,36,Spotify,1665118,proxy
-ART_062,Cauty,CO,Core Reggaeton Fans,18-34,59,41,Spotify,920964,proxy
-ART_062,Cauty,AR,Emerging Reggaeton Fans,18-34,59,41,Spotify,767470,proxy
-ART_063,WOS,AR,Core Rap Fans,25-34,50,50,TikTok,1019539,proxy
-ART_063,WOS,CL,Emerging Rap Fans,25-34,50,50,TikTok,543754,proxy
-ART_064,El Alfa,US-Latin,Core Dembow Fans,25-34,50,50,YouTube,1005928,proxy
-ART_064,El Alfa,CO,Emerging Dembow Fans,25-34,50,50,YouTube,1508892,proxy
-ART_065,Lunay,US-Latin,Core Reggaeton Fans,18-34,60,40,Spotify,689034,proxy
-ART_065,Lunay,AR,Emerging Reggaeton Fans,18-34,58,42,Spotify,861293,proxy
-ART_066,Jay Wheeler,US-Latin,Core R&B Fans,25-34,62,38,Spotify,1119957,proxy
-ART_066,Jay Wheeler,BR,Emerging R&B Fans,25-34,56,44,Spotify,1119957,proxy
-ART_067,Bryant Myers,US-Latin,Core Trap Latino Fans,18-24,46,54,Spotify,869015,proxy
-ART_067,Bryant Myers,BR,Emerging Trap Latino Fans,18-24,41,59,Spotify,869015,proxy
-ART_068,Alex Rose,US-Latin,Core Reggaeton Fans,18-34,60,40,Spotify,842121,proxy
-ART_068,Alex Rose,BR,Emerging Reggaeton Fans,18-34,52,48,Spotify,842121,proxy
-ART_069,Dalex,US-Latin,Core Reggaeton Fans,18-34,52,48,Spotify,575669,proxy
-ART_069,Dalex,CL,Emerging Reggaeton Fans,18-34,60,40,Spotify,383779,proxy
-ART_070,Zion & Lennox,US-Latin,Core Reggaeton Fans,18-34,55,45,Spotify,648347,proxy
-ART_070,Zion & Lennox,CL,Emerging Reggaeton Fans,18-34,56,44,Spotify,432231,proxy
-ART_071,Nicky Jam,US-Latin,Core Reggaeton Fans,18-34,59,41,Spotify,1545348,proxy
-ART_071,Nicky Jam,PE,Emerging Reggaeton Fans,18-34,59,41,Spotify,643895,proxy
-ART_072,Don Omar,US-Latin,Core Reggaeton Fans,18-34,51,49,Spotify,1172378,proxy
-ART_072,Don Omar,BR,Emerging Reggaeton Fans,18-34,51,49,Spotify,1172378,proxy
-ART_073,Chencho Corleone,US-Latin,Core Reggaeton Fans,18-24,55,45,Spotify,1924282,proxy
-ART_073,Chencho Corleone,CO,Emerging Reggaeton Fans,18-24,53,47,Spotify,2886424,proxy
-ART_074,Jhayco,US-Latin,Core Pop Fans,25-34,60,40,Spotify,1666338,proxy
-ART_074,Jhayco,AR,Emerging Pop Fans,25-34,65,35,Spotify,2082923,proxy
-ART_075,Bad Gyal,ES,Core Dancehall Fans,25-34,54,46,Spotify,861451,proxy
-ART_075,Bad Gyal,AR,Emerging Dancehall Fans,25-34,59,41,Spotify,1292177,proxy
-ART_076,Residente,US-Latin,Core Hip-Hop Fans,25-34,50,50,YouTube,770585,proxy
-ART_076,Residente,PE,Emerging Hip-Hop Fans,25-34,50,50,YouTube,321077,proxy
-ART_077,Kali Uchis,US-Latin,Core R&B Fans,25-34,60,40,Spotify,2130402,proxy
-ART_077,Kali Uchis,BR,Emerging R&B Fans,25-34,64,36,Spotify,2130402,proxy
-ART_078,Shakira,CO,Core Pop Fans,25-34,62,38,Spotify,6398565,proxy
-ART_078,Shakira,PE,Emerging Pop Fans,25-34,61,39,Spotify,1777379,proxy
-ART_079,Daddy Yankee,US-Latin,Core Reggaeton Fans,18-34,52,48,Spotify,2612037,proxy
-ART_079,Daddy Yankee,CO,Emerging Reggaeton Fans,18-34,50,50,Spotify,3918056,proxy
-ART_080,Grupo Menos É Mais,BR,Core Forró Fans,25-44,50,50,TikTok,1057158,proxy
-ART_080,Grupo Menos É Mais,CO,Emerging Forró Fans,25-44,50,50,Spotify,1585737,proxy
-ART_081,Mc Jacaré,BR,Core Funk Fans,25-34,50,50,YouTube,909053,proxy
-ART_081,Mc Jacaré,CL,Emerging Funk Fans,25-34,50,50,YouTube,606035,proxy
-ART_082,Panda,BR,Core Sertanejo Fans,25-44,48,52,YouTube,1123196,proxy
-ART_082,Panda,AR,Emerging Sertanejo Fans,25-44,50,50,YouTube,1403995,proxy
-ART_083,Gusttavo Lima,BR,Core Sertanejo Fans,25-44,53,47,YouTube,1306202,proxy
-ART_083,Gusttavo Lima,CO,Emerging Sertanejo Fans,25-44,48,52,YouTube,1959303,proxy
-ART_084,SIMONE MENDES,BR,Core Sertanejo Fans,25-44,48,52,YouTube,1190399,proxy
-ART_084,SIMONE MENDES,MX,Emerging Sertanejo Fans,25-44,54,46,YouTube,3471999,proxy
-ART_085,Nigga,US-Latin,Core Reggaeton Fans,18-34,50,50,Spotify,483587,proxy
-ART_085,Nigga,ES,Emerging Reggaeton Fans,18-34,50,50,Spotify,402989,proxy
-ART_086,Lenny Tavárez,US-Latin,Core Reggaeton Fans,18-34,56,44,Spotify,562953,proxy
-ART_086,Lenny Tavárez,CL,Emerging Reggaeton Fans,18-34,58,42,Spotify,375302,proxy
-ART_087,Paulo Londra,AR,Core Trap Fans,25-34,56,44,Spotify,1159011,proxy
-ART_087,Paulo Londra,US-Latin,Emerging Trap Fans,25-34,56,44,Spotify,927209,proxy
-ART_088,Trueno,AR,Core Hip-Hop Fans,25-34,64,36,Spotify,898426,proxy
-ART_088,Trueno,BR,Emerging Hip-Hop Fans,25-34,57,43,Spotify,718740,proxy
-ART_089,C. Tangana,ES,Core Pop Urbano Fans,18-34,65,35,Spotify,830946,proxy
-ART_089,C. Tangana,MX,Emerging Pop Urbano Fans,18-34,61,39,Spotify,2908313,proxy
-ART_090,Duki,AR,Core Trap Fans,25-34,53,47,Spotify,1988004,proxy
-ART_090,Duki,BR,Emerging Trap Fans,25-34,53,47,Spotify,1590403,proxy
-ART_091,María Becerra,AR,Core Pop Urbano Fans,18-34,59,41,Spotify,2430441,proxy
-ART_091,María Becerra,CL,Emerging Pop Urbano Fans,18-34,62,38,Spotify,1296235,proxy
-ART_092,TINI,AR,Core Pop Fans,25-34,57,43,Spotify,2594770,proxy
-ART_092,TINI,CL,Emerging Pop Fans,25-34,57,43,Spotify,1383877,proxy
-ART_093,Maldy,US-Latin,Core Reggaeton Fans,18-34,52,48,Spotify,448832,proxy
-ART_093,Maldy,ES,Emerging Reggaeton Fans,18-34,50,50,Spotify,374026,proxy
-ART_094,Dimelo Flow,CO,Core Reggaeton Fans,18-34,60,40,Spotify,777245,proxy
-ART_094,Dimelo Flow,MX,Emerging Reggaeton Fans,18-34,55,45,Spotify,1511310,proxy
-ART_095,Jhon Álex Castaño,CO,Core Corrido Colombiano Fans,25-34,50,50,YouTube,651479,proxy
-ART_095,Jhon Álex Castaño,US-Latin,Emerging Corrido Colombiano Fans,25-34,50,50,YouTube,434319,proxy
-ART_096,Chuyin,MX,Core Sierreño Fans,25-44,45,55,YouTube,1600536,proxy
-ART_096,Chuyin,ES,Emerging Sierreño Fans,25-44,41,59,YouTube,457296,proxy
-ART_097,Angel Almaguer,MX,Core Sierreño Fans,25-44,44,56,YouTube,1360826,proxy
-ART_097,Angel Almaguer,PE,Emerging Sierreño Fans,25-44,39,61,YouTube,194403,proxy
-ART_098,Victor Mendivil,MX,Core Sierreño Fans,25-44,45,55,YouTube,1839737,proxy
-ART_098,Victor Mendivil,CL,Emerging Sierreño Fans,25-44,39,61,YouTube,420511,proxy
-ART_099,Corina Smith,US-Latin,Core Reggaeton Fans,18-34,59,41,Spotify,411936,proxy
-ART_099,Corina Smith,ES,Emerging Reggaeton Fans,18-34,57,43,Spotify,343280,proxy
-ART_100,Paloma Mami,CL,Core Pop Urbano Fans,18-34,65,35,Spotify,376468,proxy
-ART_100,Paloma Mami,PE,Emerging Pop Urbano Fans,18-34,64,36,Spotify,235292,proxy
+ART_001,Peso Pluma,MX,Core Corridos Tumbados Fans,18-24,38,62,YouTube,30375245,proxy
+ART_001,Peso Pluma,PE,Emerging Corridos Tumbados Fans,18-24,37,63,YouTube,4339320,first-party
+ART_002,Bad Bunny,US-Latin,Core Reggaeton Fans,18-24,58,42,Spotify,10154176,first-party
+ART_002,Bad Bunny,MX,Emerging Reggaeton Fans,18-24,58,42,Spotify,29616347,proxy
+ART_003,Fuerza Regida,MX,Core Corridos Tumbados Fans,18-24,37,63,YouTube,13960891,first-party
+ART_003,Fuerza Regida,CL,Emerging Corridos Tumbados Fans,18-24,37,63,YouTube,3191060,proxy
+ART_004,Karol G,CO,Core Reggaeton Fans,18-34,59,41,Spotify,9712508,proxy
+ART_004,Karol G,ES,Emerging Reggaeton Fans,18-34,58,42,Spotify,5395837,first-party
+ART_005,J Balvin,CO,Core Reggaeton Fans,18-34,51,49,Spotify,5770354,proxy
+ART_005,J Balvin,PE,Emerging Reggaeton Fans,18-34,52,48,Spotify,1602876,first-party
+ART_006,Beéle,CO,Core Pop Urbano Fans,18-34,55,45,Spotify,4594985,proxy
+ART_006,Beéle,PE,Emerging Pop Urbano Fans,18-34,65,35,Spotify,1276384,proxy
+ART_007,Ryan Castro,CO,Core Pop Urbano Fans,18-34,61,39,Spotify,3430314,proxy
+ART_007,Ryan Castro,CL,Emerging Pop Urbano Fans,18-34,55,45,Spotify,1524584,proxy
+ART_008,Tito Double P,MX,Core Corridos Tumbados Fans,18-24,38,62,YouTube,8026552,proxy
+ART_008,Tito Double P,CL,Emerging Corridos Tumbados Fans,18-24,42,58,YouTube,1834640,proxy
+ART_009,Junior H,MX,Core Corridos Tumbados Fans,18-24,40,60,YouTube,7559513,proxy
+ART_009,Junior H,US-Latin,Emerging Corridos Tumbados Fans,18-24,44,56,YouTube,2591833,proxy
+ART_010,El Bogueto,AR,Core Urbano Latino Fans,25-34,50,50,YouTube,2804577,proxy
+ART_010,El Bogueto,MX,Emerging Urbano Latino Fans,25-34,50,50,Spotify,6544013,proxy
+ART_011,Bizarrap,AR,Core Trap Fans,25-34,50,50,TikTok,5325958,first-party
+ART_011,Bizarrap,US-Latin,Emerging Trap Fans,25-34,50,50,YouTube,4260766,proxy
+ART_012,Blessd,CO,Core Reggaeton Fans,18-24,50,50,Spotify,2843910,first-party
+ART_012,Blessd,BR,Emerging Reggaeton Fans,18-24,51,49,Spotify,1895940,proxy
+ART_013,Quevedo,ES,Core Trap Fans,25-34,50,50,TikTok,2202415,first-party
+ART_013,Quevedo,PE,Emerging Trap Fans,25-34,50,50,YouTube,1101207,proxy
+ART_014,Omar Courtz,US-Latin,Core Reggaeton Fans,25-34,52,48,Spotify,1556842,proxy
+ART_014,Omar Courtz,BR,Emerging Reggaeton Fans,25-34,59,41,Spotify,1556842,proxy
+ART_015,ROSALÍA,ES,Core Flamenco Urbano Fans,25-34,50,50,TikTok,3175969,proxy
+ART_015,ROSALÍA,AR,Emerging Flamenco Urbano Fans,25-34,50,50,YouTube,4763954,proxy
+ART_016,Ozuna,US-Latin,Core Reggaeton Fans,18-24,60,40,Spotify,3148594,proxy
+ART_016,Ozuna,ES,Emerging Reggaeton Fans,18-24,53,47,Spotify,2623829,proxy
+ART_017,Rauw Alejandro,US-Latin,Core Pop Urbano Fans,18-34,63,37,Spotify,2814043,proxy
+ART_017,Rauw Alejandro,BR,Emerging Pop Urbano Fans,18-34,60,40,Spotify,2814043,proxy
+ART_018,Romeo Santos,US-Latin,Core Bachata Fans,25-34,51,49,YouTube,2605267,proxy
+ART_018,Romeo Santos,ES,Emerging Bachata Fans,25-34,53,47,TikTok,2171056,proxy
+ART_019,Neton Vega,MX,Core Norteño Fans,25-44,47,53,YouTube,5200385,proxy
+ART_019,Neton Vega,AR,Emerging Norteño Fans,25-44,40,60,YouTube,2228736,first-party
+ART_020,Herencia De Grandes,MX,Core Banda Fans,25-44,42,58,Spotify,4457497,proxy
+ART_020,Herencia De Grandes,ES,Emerging Banda Fans,25-44,46,54,YouTube,1273570,proxy
+ART_021,Omar Camacho,MX,Core Sierreño Fans,25-44,45,55,YouTube,3898844,proxy
+ART_021,Omar Camacho,US-Latin,Emerging Sierreño Fans,25-44,46,54,YouTube,1336746,proxy
+ART_022,Lenin Ramírez,MX,Core Banda Fans,25-44,50,50,TikTok,3410694,proxy
+ART_022,Lenin Ramírez,CL,Emerging Banda Fans,25-44,40,60,Spotify,779587,proxy
+ART_023,Kapo,CO,Core Pop Urbano Fans,18-34,65,35,Spotify,1634351,proxy
+ART_023,Kapo,ES,Emerging Pop Urbano Fans,18-34,55,45,Spotify,907972,proxy
+ART_024,Rels B,ES,Core Pop Urbano Fans,18-34,56,44,Spotify,1165443,proxy
+ART_024,Rels B,US-Latin,Emerging Pop Urbano Fans,18-34,57,43,Spotify,1398532,proxy
+ART_025,BeatBoy,MX,Core Sierreño Fans,25-44,46,54,YouTube,2251419,proxy
+ART_025,BeatBoy,ES,Emerging Sierreño Fans,25-44,43,57,YouTube,643262,proxy
+ART_026,Virlan Garcia,MX,Core Corridos Fans,18-24,31,69,YouTube,2441614,proxy
+ART_026,Virlan Garcia,CO,Emerging Corridos Fans,18-24,34,66,YouTube,1255687,proxy
+ART_027,Nanpa Básico,CO,Core Pop Urbano Fans,18-34,60,40,Spotify,1045215,proxy
+ART_027,Nanpa Básico,AR,Emerging Pop Urbano Fans,18-34,56,44,Spotify,871013,proxy
+ART_028,La T y La M,AR,Core Cumbia Fans,25-44,55,45,Spotify,1303672,proxy
+ART_028,La T y La M,PE,Emerging Cumbia Fans,25-44,61,39,Spotify,434557,proxy
+ART_029,Roze Oficial,AR,Core Cumbia Fans,25-44,64,36,Spotify,1026445,proxy
+ART_029,Roze Oficial,ES,Emerging Cumbia Fans,25-44,65,35,Spotify,684297,proxy
+ART_030,Max Carra,AR,Core Cumbia Fans,25-44,50,50,YouTube,960339,proxy
+ART_030,Max Carra,PE,Emerging Cumbia Fans,25-44,50,50,TikTok,320113,proxy
+ART_031,Kybba,CO,Core Dancehall Fans,25-34,55,45,Spotify,882020,proxy
+ART_031,Kybba,PE,Emerging Dancehall Fans,25-34,57,43,Spotify,245005,proxy
+ART_032,Maluma,CO,Core Reggaeton Fans,18-34,57,43,Spotify,4384025,proxy
+ART_032,Maluma,CL,Emerging Reggaeton Fans,18-34,57,43,Spotify,1948455,proxy
+ART_033,Myke Towers,US-Latin,Core Reggaeton Fans,18-24,53,47,Spotify,2410461,proxy
+ART_033,Myke Towers,MX,Emerging Reggaeton Fans,18-24,60,40,Spotify,7030511,proxy
+ART_034,Jhay Cortez,US-Latin,Core R&B Fans,25-34,58,42,Spotify,1562457,proxy
+ART_034,Jhay Cortez,CL,Emerging R&B Fans,25-34,54,46,Spotify,1041638,proxy
+ART_035,Anuel AA,US-Latin,Core Trap Latino Fans,18-24,37,63,Spotify,1881643,proxy
+ART_035,Anuel AA,CO,Emerging Trap Latino Fans,18-24,46,54,Spotify,2822465,proxy
+ART_036,Eladio Carrión,US-Latin,Core Trap Fans,18-24,50,50,TikTok,1464716,proxy
+ART_036,Eladio Carrión,ES,Emerging Trap Fans,18-24,50,50,TikTok,1220596,proxy
+ART_037,Sech,US-Latin,Core Reggaeton Fans,18-34,59,41,Spotify,1095499,proxy
+ART_037,Sech,CO,Emerging Reggaeton Fans,18-34,52,48,Spotify,1643249,proxy
+ART_038,Mora,US-Latin,Core Trap Fans,25-34,50,50,Spotify,916090,proxy
+ART_038,Mora,PE,Emerging Trap Fans,25-34,50,50,YouTube,381704,proxy
+ART_039,Ovy On The Drums,CO,Core Producción Fans,25-34,50,50,TikTok,3184169,proxy
+ART_039,Ovy On The Drums,AR,Emerging Producción Fans,25-34,50,50,Spotify,2653474,proxy
+ART_040,Arcángel,US-Latin,Core Reggaeton Fans,18-24,51,49,Spotify,1040303,proxy
+ART_040,Arcángel,CO,Emerging Reggaeton Fans,18-24,54,46,Spotify,1560454,proxy
+ART_041,Camilo,CO,Core Pop Fans,25-34,61,39,Spotify,3922784,proxy
+ART_041,Camilo,US-Latin,Emerging Pop Fans,25-34,60,40,Spotify,2615189,proxy
+ART_042,Sebastián Yatra,CO,Core Pop Latino Fans,25-34,61,39,Spotify,3736423,proxy
+ART_042,Sebastián Yatra,CL,Emerging Pop Latino Fans,25-34,61,39,Spotify,1660632,proxy
+ART_043,Natanael Cano,MX,Core Corridos Tumbados Fans,18-24,38,62,YouTube,4495609,proxy
+ART_043,Natanael Cano,PE,Emerging Corridos Tumbados Fans,18-24,43,57,YouTube,642229,proxy
+ART_044,Luis R Conriquez,MX,Core Corridos Fans,18-24,31,69,YouTube,3520982,proxy
+ART_044,Luis R Conriquez,CO,Emerging Corridos Fans,18-24,31,69,YouTube,1810791,proxy
+ART_045,Carin León,MX,Core Banda Fans,25-44,59,41,Spotify,5170410,proxy
+ART_045,Carin León,PE,Emerging Banda Fans,25-44,63,37,Spotify,738630,proxy
+ART_046,Christian Nodal,MX,Core Regional Mexicano Fans,25-44,45,55,YouTube,4917308,proxy
+ART_046,Christian Nodal,PE,Emerging Regional Mexicano Fans,25-44,44,56,Spotify,702472,proxy
+ART_047,Grupo Frontera,MX,Core Norteño Fans,25-34,50,50,Spotify,4127926,proxy
+ART_047,Grupo Frontera,PE,Emerging Norteño Fans,25-34,50,50,YouTube,589703,proxy
+ART_048,Gera MX,MX,Core Rap Fans,25-34,50,50,TikTok,2418595,proxy
+ART_048,Gera MX,ES,Emerging Rap Fans,25-34,50,50,Spotify,691027,proxy
+ART_049,MC Davo,MX,Core Rap Fans,25-34,50,50,Spotify,1454594,proxy
+ART_049,MC Davo,BR,Emerging Rap Fans,25-34,50,50,YouTube,498718,proxy
+ART_050,Yahritza Y Su Esencia,MX,Core Regional Mexicano Fans,25-44,41,59,TikTok,3241612,proxy
+ART_050,Yahritza Y Su Esencia,PE,Emerging Regional Mexicano Fans,25-44,41,59,TikTok,463087,proxy
+ART_051,Grupo Firme,MX,Core Regional Mexicano Fans,25-44,45,55,Spotify,6707008,proxy
+ART_051,Grupo Firme,BR,Emerging Regional Mexicano Fans,25-44,48,52,YouTube,2299545,proxy
+ART_052,Régulo Molina,MX,Core Sierreño Fans,25-44,46,54,YouTube,1756220,proxy
+ART_052,Régulo Molina,PE,Emerging Sierreño Fans,25-44,41,59,YouTube,250888,proxy
+ART_053,Oscar Maydon,MX,Core Corridos Tumbados Fans,18-24,42,58,YouTube,2726398,proxy
+ART_053,Oscar Maydon,CL,Emerging Corridos Tumbados Fans,18-24,41,59,YouTube,623176,proxy
+ART_054,W Sound,CO,Core Producción Fans,25-34,57,43,Spotify,2333593,proxy
+ART_054,W Sound,PE,Emerging Producción Fans,25-34,53,47,Spotify,648220,proxy
+ART_055,PEDRO SAMPAIO,BR,Core Funk Fans,25-34,50,50,YouTube,1243073,proxy
+ART_055,PEDRO SAMPAIO,US-Latin,Emerging Funk Fans,25-34,50,50,YouTube,1243073,proxy
+ART_056,Ñengo Flow,US-Latin,Core Reggaeton Fans,18-24,57,43,Spotify,753637,proxy
+ART_056,Ñengo Flow,AR,Emerging Reggaeton Fans,18-24,60,40,Spotify,942047,proxy
+ART_057,JC Reyes,US-Latin,Core Reggaeton Fans,25-34,59,41,Spotify,721120,proxy
+ART_057,JC Reyes,BR,Emerging Reggaeton Fans,25-34,50,50,Spotify,721120,proxy
+ART_058,YOVNGCHIMI,US-Latin,Core Dembow Fans,18-24,51,49,Spotify,636900,proxy
+ART_058,YOVNGCHIMI,BR,Emerging Dembow Fans,18-24,54,46,Spotify,636900,proxy
+ART_059,Dei V,US-Latin,Core Reggaeton Fans,18-24,56,44,Spotify,988577,proxy
+ART_059,Dei V,MX,Emerging Reggaeton Fans,18-24,60,40,Spotify,2883349,proxy
+ART_060,Aitana,ES,Core Pop Fans,25-34,58,42,Spotify,1499063,proxy
+ART_060,Aitana,US-Latin,Emerging Pop Fans,25-34,65,35,Spotify,1798875,proxy
+ART_061,Prince Royce,US-Latin,Core Bachata Fans,25-34,58,42,Spotify,1313609,proxy
+ART_061,Prince Royce,PE,Emerging Bachata Fans,25-34,60,40,Spotify,547337,proxy
+ART_062,Cauty,CO,Core Reggaeton Fans,18-34,55,45,Spotify,946635,proxy
+ART_062,Cauty,ES,Emerging Reggaeton Fans,18-34,58,42,Spotify,525908,proxy
+ART_063,WOS,AR,Core Rap Fans,25-34,50,50,Spotify,1023384,proxy
+ART_063,WOS,PE,Emerging Rap Fans,25-34,50,50,TikTok,341128,proxy
+ART_064,El Alfa,US-Latin,Core Dembow Fans,25-34,50,50,YouTube,1016806,proxy
+ART_064,El Alfa,CL,Emerging Dembow Fans,25-34,50,50,Spotify,677870,proxy
+ART_065,Lunay,US-Latin,Core Reggaeton Fans,18-34,51,49,Spotify,709048,proxy
+ART_065,Lunay,AR,Emerging Reggaeton Fans,18-34,56,44,Spotify,886311,proxy
+ART_066,Jay Wheeler,US-Latin,Core R&B Fans,25-34,60,40,Spotify,1114950,proxy
+ART_066,Jay Wheeler,PE,Emerging R&B Fans,25-34,56,44,Spotify,464562,proxy
+ART_067,Bryant Myers,US-Latin,Core Trap Latino Fans,18-24,39,61,Spotify,852097,proxy
+ART_067,Bryant Myers,ES,Emerging Trap Latino Fans,18-24,44,56,Spotify,710080,proxy
+ART_068,Alex Rose,US-Latin,Core Reggaeton Fans,18-34,55,45,Spotify,843260,proxy
+ART_068,Alex Rose,AR,Emerging Reggaeton Fans,18-34,53,47,Spotify,1054076,proxy
+ART_069,Dalex,US-Latin,Core Reggaeton Fans,18-34,54,46,Spotify,578189,proxy
+ART_069,Dalex,ES,Emerging Reggaeton Fans,18-34,52,48,Spotify,481824,proxy
+ART_070,Zion & Lennox,US-Latin,Core Reggaeton Fans,18-34,60,40,Spotify,649965,proxy
+ART_070,Zion & Lennox,PE,Emerging Reggaeton Fans,18-34,53,47,Spotify,270818,proxy
+ART_071,Nicky Jam,US-Latin,Core Reggaeton Fans,18-34,53,47,Spotify,1565897,proxy
+ART_071,Nicky Jam,BR,Emerging Reggaeton Fans,18-34,53,47,Spotify,1565897,proxy
+ART_072,Don Omar,US-Latin,Core Reggaeton Fans,18-34,53,47,Spotify,1179935,proxy
+ART_072,Don Omar,PE,Emerging Reggaeton Fans,18-34,54,46,Spotify,491639,proxy
+ART_073,Chencho Corleone,US-Latin,Core Reggaeton Fans,18-24,53,47,Spotify,1897287,proxy
+ART_073,Chencho Corleone,CO,Emerging Reggaeton Fans,18-24,53,47,Spotify,2845930,proxy
+ART_074,Jhayco,US-Latin,Core Pop Fans,25-34,58,42,Spotify,1672996,proxy
+ART_074,Jhayco,CL,Emerging Pop Fans,25-34,64,36,Spotify,1115331,proxy
+ART_075,Bad Gyal,ES,Core Dancehall Fans,25-34,52,48,Spotify,853676,proxy
+ART_075,Bad Gyal,AR,Emerging Dancehall Fans,25-34,51,49,Spotify,1280514,proxy
+ART_076,Residente,US-Latin,Core Hip-Hop Fans,25-34,50,50,Spotify,766718,proxy
+ART_076,Residente,MX,Emerging Hip-Hop Fans,25-34,50,50,TikTok,2236262,proxy
+ART_077,Kali Uchis,US-Latin,Core R&B Fans,25-34,62,38,Spotify,2123129,proxy
+ART_077,Kali Uchis,PE,Emerging R&B Fans,25-34,64,36,Spotify,884637,proxy
+ART_078,Shakira,CO,Core Pop Fans,25-34,63,37,Spotify,6592300,proxy
+ART_078,Shakira,MX,Emerging Pop Fans,25-34,55,45,Spotify,12818362,proxy
+ART_079,Daddy Yankee,US-Latin,Core Reggaeton Fans,18-34,57,43,Spotify,2626221,proxy
+ART_079,Daddy Yankee,CL,Emerging Reggaeton Fans,18-34,55,45,Spotify,1750814,proxy
+ART_080,Grupo Menos É Mais,BR,Core Forró Fans,25-44,50,50,YouTube,1196388,proxy
+ART_080,Grupo Menos É Mais,PE,Emerging Forró Fans,25-44,50,50,YouTube,498495,proxy
+ART_081,Mc Jacaré,BR,Core Funk Fans,25-34,50,50,YouTube,894045,proxy
+ART_081,Mc Jacaré,PE,Emerging Funk Fans,25-34,50,50,YouTube,372518,proxy
+ART_082,Panda,BR,Core Sertanejo Fans,25-44,51,49,YouTube,1271111,proxy
+ART_082,Panda,US-Latin,Emerging Sertanejo Fans,25-44,54,46,YouTube,1271111,proxy
+ART_083,Gusttavo Lima,BR,Core Sertanejo Fans,25-44,55,45,YouTube,1299251,proxy
+ART_083,Gusttavo Lima,CO,Emerging Sertanejo Fans,25-44,51,49,YouTube,1948877,proxy
+ART_084,SIMONE MENDES,BR,Core Sertanejo Fans,25-44,50,50,YouTube,1205031,proxy
+ART_084,SIMONE MENDES,ES,Emerging Sertanejo Fans,25-44,56,44,YouTube,1004193,proxy
+ART_085,Nigga,US-Latin,Core Reggaeton Fans,18-34,50,50,Spotify,494641,proxy
+ART_085,Nigga,CO,Emerging Reggaeton Fans,18-34,58,42,Spotify,741962,proxy
+ART_086,Lenny Tavárez,US-Latin,Core Reggaeton Fans,18-34,56,44,Spotify,560949,proxy
+ART_086,Lenny Tavárez,CL,Emerging Reggaeton Fans,18-34,57,43,Spotify,373966,proxy
+ART_087,Paulo Londra,AR,Core Trap Fans,25-34,55,45,Spotify,1166423,proxy
+ART_087,Paulo Londra,PE,Emerging Trap Fans,25-34,63,37,Spotify,388807,proxy
+ART_088,Trueno,AR,Core Hip-Hop Fans,25-34,61,39,Spotify,894597,proxy
+ART_088,Trueno,BR,Emerging Hip-Hop Fans,25-34,65,35,Spotify,715678,proxy
+ART_089,C. Tangana,ES,Core Pop Urbano Fans,18-34,57,43,Spotify,827912,proxy
+ART_089,C. Tangana,US-Latin,Emerging Pop Urbano Fans,18-34,62,38,Spotify,993494,proxy
+ART_090,Duki,AR,Core Trap Fans,25-34,58,42,Spotify,1911754,proxy
+ART_090,Duki,MX,Emerging Trap Fans,25-34,57,43,Spotify,4460759,proxy
+ART_091,María Becerra,AR,Core Pop Urbano Fans,18-34,55,45,Spotify,2438777,proxy
+ART_091,María Becerra,BR,Emerging Pop Urbano Fans,18-34,55,45,Spotify,1951021,proxy
+ART_092,TINI,AR,Core Pop Fans,25-34,58,42,Spotify,2724225,proxy
+ART_092,TINI,CL,Emerging Pop Fans,25-34,61,39,Spotify,1452920,proxy
+ART_093,Maldy,US-Latin,Core Reggaeton Fans,18-34,51,49,Spotify,463277,proxy
+ART_093,Maldy,ES,Emerging Reggaeton Fans,18-34,55,45,Spotify,386064,proxy
+ART_094,Dimelo Flow,CO,Core Reggaeton Fans,18-34,59,41,Spotify,786350,proxy
+ART_094,Dimelo Flow,BR,Emerging Reggaeton Fans,18-34,54,46,Spotify,524233,proxy
+ART_095,Jhon Álex Castaño,CO,Core Corrido Colombiano Fans,25-34,50,50,TikTok,637704,proxy
+ART_095,Jhon Álex Castaño,AR,Emerging Corrido Colombiano Fans,25-34,50,50,YouTube,531420,proxy
+ART_096,Chuyin,MX,Core Sierreño Fans,25-44,41,59,YouTube,1744944,proxy
+ART_096,Chuyin,AR,Emerging Sierreño Fans,25-44,44,56,YouTube,747833,proxy
+ART_097,Angel Almaguer,MX,Core Sierreño Fans,25-44,42,58,YouTube,1384907,proxy
+ART_097,Angel Almaguer,PE,Emerging Sierreño Fans,25-44,42,58,YouTube,197843,proxy
+ART_098,Victor Mendivil,MX,Core Sierreño Fans,25-44,44,56,YouTube,1847766,proxy
+ART_098,Victor Mendivil,AR,Emerging Sierreño Fans,25-44,43,57,YouTube,791900,proxy
+ART_099,Corina Smith,US-Latin,Core Reggaeton Fans,18-34,56,44,Spotify,405261,proxy
+ART_099,Corina Smith,CO,Emerging Reggaeton Fans,18-34,55,45,Spotify,607891,proxy
+ART_100,Paloma Mami,CL,Core Pop Urbano Fans,18-34,61,39,Spotify,389592,proxy
+ART_100,Paloma Mami,AR,Emerging Pop Urbano Fans,18-34,59,41,Spotify,730485,proxy
