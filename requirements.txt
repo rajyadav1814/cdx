@@ -25,3 +25,5 @@ typing-inspection==0.4.2
 typing_extensions==4.15.0
 fastapi
 uvicorn
+
+streamlit>=1.37.0
