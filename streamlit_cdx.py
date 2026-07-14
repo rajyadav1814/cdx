@@ -210,6 +210,7 @@ def configure_page(page_title: str) -> None:
             background: var(--bg-base);
             color: var(--text-primary);
             font-family: 'DM Sans', system-ui, sans-serif;
+            font-size: 1.1rem !important;
         }}
 
         section.main > div {{
@@ -237,6 +238,7 @@ def configure_page(page_title: str) -> None:
 
         .stApp, .stApp p, .stApp li, .stApp label, .stApp span {{
             color: var(--text-primary);
+            font-size: 1.1rem !important;
         }}
 
         [data-testid="stMetric"] {{
