@@ -30,18 +30,7 @@ except Exception:
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(PROJECT_ROOT, 'data')
 
-AGENT_PREREQS = {
-    1: None,
-    2: os.path.join(DATA_DIR, 'agent1_output.csv'),
-    3: os.path.join(DATA_DIR, 'agent2_output.csv'),
-    4: os.path.join(DATA_DIR, 'agent3_output.csv'),
-}
-AGENT_OUTPUTS = {
-    1: os.path.join(DATA_DIR, 'agent1_output.csv'),
-    2: os.path.join(DATA_DIR, 'agent2_output.csv'),
-    3: os.path.join(DATA_DIR, 'agent3_output.csv'),
-    4: os.path.join(DATA_DIR, 'agent4_output.csv'),
-}
+
 
 SEP = "━" * 52
 
@@ -77,23 +66,24 @@ def run_pipeline():
         print(f"\n  ▶  {labels[num]}")
         print("  " + "─" * 48)
 
-        # Check prerequisite CSV
-        prereq = AGENT_PREREQS[num]
-        if prereq and not os.path.exists(prereq):
-            msg = f"Prerequisite missing: {os.path.basename(prereq)}"
+        # Check if previous agent succeeded
+        if num > 1 and agent_status.get(num - 1) != "ok":
+            msg = f"Prerequisite agent {num-1} did not succeed."
             print(f"  ✗ SKIPPED — {msg}")
             agent_status[num] = "skipped"
             agent_errors[num] = msg
             continue
 
         try:
-            results = runners[num]()
+            if num == 1:
+                results = runners[num]()
+            else:
+                results = runners[num](shared_run_id)
+                
             agent_results[num] = results if results else []
 
-            # Verify output was written
-            out_path = AGENT_OUTPUTS[num]
-            if not os.path.exists(out_path):
-                raise FileNotFoundError(f"Output not created: {os.path.basename(out_path)}")
+            if not agent_results[num]:
+                raise ValueError(f"Agent returned no results")
 
             agent_status[num] = "ok"
             print(f"\n  ✓  {labels[num]} complete — {len(agent_results[num])} artists")
@@ -115,117 +105,24 @@ def run_pipeline():
             print(f"\n  ✗  {labels[num]} FAILED: {e}")
             print(tb)
 
-    # Pass shared_run_id to remaining agents when replaying results
-    # (agents 2-4 accept run_id only when called from orchestrator)
-    # NOTE: The runners above already called run_agent() without run_id.
-    # For the DB writes, we need to re-call with run_id — but agents
-    # already wrote CSVs. We handle this by re-running only the DB writes
-    # via a secondary upsert if shared_run_id was obtained.
-    if shared_run_id and _DB_ENABLED:
-        try:
-            from db.writers import upsert_strategy_results, upsert_audience_results, upsert_roi_results
-            if 2 in agent_results and agent_results[2]:
-                upsert_strategy_results(shared_run_id, agent_results[2])
-                print(f"  [DB] strategy results saved under run {shared_run_id}")
-            if 3 in agent_results and agent_results[3]:
-                upsert_audience_results(shared_run_id, agent_results[3])
-                print(f"  [DB] audience results saved under run {shared_run_id}")
-            if 4 in agent_results and agent_results[4]:
-                # Also need detail rows for ROI; read from CSV
-                import pandas as _pd
-                detail_path = AGENT_OUTPUTS[4].replace("agent4_output.csv", "roi_scenarios_detail.csv")
-                _detail = []
-                if os.path.exists(detail_path):
-                    _detail = _pd.read_csv(detail_path).to_dict(orient="records")
-                upsert_roi_results(shared_run_id, agent_results[4], _detail)
-                print(f"  [DB] ROI results saved under run {shared_run_id}")
-        except Exception as _e:
-            print(f"  [DB] secondary upsert failed: {_e}")
-
-    # ── Build pipeline_summary.json ───────────────────────────────
+    # ── Summary ───────────────────────────────
     run_ts = datetime.now(timezone.utc).isoformat(timespec='seconds')
-
-    def _agent1_summary():
-        path = AGENT_OUTPUTS[1]
-        if not os.path.exists(path):
-            return {"status": agent_status.get(1, "skipped")}
-        df = pd.read_csv(path)
-        counts = df['opportunity_class'].value_counts().to_dict()
-        top = df.sort_values('momentum_score', ascending=False).iloc[0]['artist_name'] if len(df) else ""
-        return {
-            "status":               agent_status.get(1, "ok"),
-            "high_opportunities":   int(counts.get('HIGH',   0)),
-            "medium_opportunities": int(counts.get('MEDIUM', 0)),
-            "watch_opportunities":  int(counts.get('WATCH',  0)),
-            "top_artist":           top,
-            **( {"error": agent_errors[1]} if 1 in agent_errors else {} ),
+    
+    # We no longer generate a local pipeline_summary.json 
+    # since the backend API provides it via db.readers.read_pipeline_summary()
+    # But we can still read it from DB here to print the final output
+    try:
+        from db.readers import read_pipeline_summary
+        summary = read_pipeline_summary()
+    except Exception:
+        summary = {
+            "run_timestamp": run_ts,
+            "artists_processed": len(agent_results.get(1, [])),
+            "agent1": {"status": agent_status.get(1, "ok")},
+            "agent2": {"status": agent_status.get(2, "ok")},
+            "agent3": {"status": agent_status.get(3, "ok")},
+            "agent4": {"status": agent_status.get(4, "ok")},
         }
-
-    def _agent2_summary():
-        path = AGENT_OUTPUTS[2]
-        if not os.path.exists(path):
-            return {"status": agent_status.get(2, "skipped")}
-        df = pd.read_csv(path)
-        cat_dist = df['best_brand_category'].value_counts().to_dict()
-        channel  = df['recommended_channel'].mode().iloc[0] if len(df) else ""
-        return {
-            "status":                        agent_status.get(2, "ok"),
-            "briefs_generated":              len(df),
-            "best_brand_category_distribution": {k: int(v) for k, v in cat_dist.items()},
-            "most_common_channel":           channel,
-            **( {"error": agent_errors[2]} if 2 in agent_errors else {} ),
-        }
-
-    def _agent3_summary():
-        path = AGENT_OUTPUTS[3]
-        if not os.path.exists(path):
-            return {"status": agent_status.get(3, "skipped")}
-        df = pd.read_csv(path)
-        total = len(df)
-        conf_cts = df['data_confidence'].value_counts()
-        return {
-            "status":               agent_status.get(3, "ok"),
-            "avg_reach":            int(df['total_reach'].mean()) if total else 0,
-            "high_confidence_pct":  round(conf_cts.get('HIGH',   0) / total * 100, 1) if total else 0,
-            "medium_confidence_pct":round(conf_cts.get('MEDIUM', 0) / total * 100, 1) if total else 0,
-            "low_confidence_pct":   round(conf_cts.get('LOW',    0) / total * 100, 1) if total else 0,
-            **( {"error": agent_errors[3]} if 3 in agent_errors else {} ),
-        }
-
-    def _agent4_summary():
-        path = AGENT_OUTPUTS[4]
-        if not os.path.exists(path):
-            return {"status": agent_status.get(4, "skipped")}
-        df = pd.read_csv(path)
-        if len(df) == 0:
-            return {"status": agent_status.get(4, "ok")}
-        best = df.nlargest(1, 'base_roi').iloc[0]
-        return {
-            "status":                  agent_status.get(4, "ok"),
-            "avg_base_roi":            round(float(df['base_roi'].mean()), 4),
-            "highest_roi_artist":      best['artist_name'],
-            "highest_roi_multiple":    round(float(best['base_roi']), 4),
-            "total_projected_revenue": int(df['base_revenue'].sum()),
-            **( {"error": agent_errors[4]} if 4 in agent_errors else {} ),
-        }
-
-    # Count total artists processed (from agent1 as the source)
-    a1_path = AGENT_OUTPUTS[1]
-    n_artists = len(pd.read_csv(a1_path)) if os.path.exists(a1_path) else 0
-
-    summary = {
-        "run_timestamp":      run_ts,
-        "artists_processed":  n_artists,
-        "agent1":             _agent1_summary(),
-        "agent2":             _agent2_summary(),
-        "agent3":             _agent3_summary(),
-        "agent4":             _agent4_summary(),
-    }
-
-    summary_path = os.path.join(DATA_DIR, 'pipeline_summary.json')
-    with open(summary_path, 'w') as f:
-        json.dump(summary, f, indent=2)
-    print(f"\n  Written → {summary_path}")
 
     # ── Final console report ───────────────────────────────────────
     a1 = summary['agent1']

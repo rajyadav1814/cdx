@@ -26,13 +26,11 @@ from model_router import call_llm
 
 load_dotenv(os.path.join(PROJECT_ROOT, '.env'))
 
-# ─── DB writers (optional) ─────────────────────────────────────────────────────────────────
-try:
-    from db.writers import upsert_strategy_results
-    _DB_ENABLED = True
-except Exception as _db_err:
-    print(f"  [agent2] DB writers unavailable ({_db_err}); CSV-only mode.")
-    _DB_ENABLED = False
+# ─── DB writers & connection ──────────────────────────────────────────────────
+from db.writers import upsert_strategy_results
+from db.readers import read_agent1
+from db.connection import get_conn
+_DB_ENABLED = True
 
 # ─── Paths ────────────────────────────────────────────────────────────────────
 DATA_DIR = os.path.join(PROJECT_ROOT, 'data')
@@ -192,10 +190,11 @@ def run_agent(run_id: str | None = None) -> list[dict]:
 
     # ── Load data ──────────────────────────────────────────────────
     print("Loading data...")
-    df_agent1  = pd.read_csv(os.path.join(DATA_DIR, 'agent1_output.csv'))
-    df_scores  = pd.read_csv(os.path.join(DATA_DIR, 'scores_weekly.csv'))
-    df_media   = pd.read_csv(os.path.join(DATA_DIR, 'media_mentions.csv'))
-    df_artists = pd.read_csv(os.path.join(DATA_DIR, 'artists.csv'))
+    df_agent1 = pd.DataFrame(read_agent1(run_id))
+    with get_conn() as conn:
+        df_scores  = pd.read_sql("SELECT * FROM scores_weekly", conn)
+        df_media   = pd.read_sql("SELECT * FROM media_mentions", conn)
+        df_artists = pd.read_sql("SELECT * FROM artists", conn)
 
     # Filter to most recent scoring week
     latest_week = df_scores['week_date'].max()
@@ -264,16 +263,6 @@ def run_agent(run_id: str | None = None) -> list[dict]:
             "llm_status":          llm_status,
             "generated_at":        generated_at,
         })
-
-    # ── Write CSV ──────────────────────────────────────────────────
-    df_out = pd.DataFrame(results, columns=[
-        "artist_id", "artist_name", "best_brand_category", "brand_fit_score",
-        "activation_pillar_1", "activation_pillar_2", "activation_pillar_3",
-        "recommended_channel", "strategic_brief", "sentiment_risk",
-        "llm_status", "generated_at",
-    ])
-    df_out.to_csv(OUTPUT, index=False)
-    print(f"\n  Written {len(df_out)} rows → {OUTPUT}")
 
     # ── Write to DB ────────────────────────────────────────────────
     if _DB_ENABLED and run_id:

@@ -18,22 +18,20 @@ sys.path.insert(0, PROJECT_ROOT)
 DATA_DIR = os.path.join(PROJECT_ROOT, 'data')
 OUTPUT   = os.path.join(DATA_DIR, 'scores_weekly.csv')
 
-# ─── DB writer (optional) ─────────────────────────────────────────────────────
-try:
-    from db.writers import upsert_scores_weekly
-    _DB_ENABLED = True
-except Exception as _db_err:
-    print(f"  [scoring_engine] DB writer unavailable ({_db_err}); CSV-only mode.")
-    _DB_ENABLED = False
+# ─── DB writers & connection ──────────────────────────────────────────────────
+from db.writers import upsert_scores_weekly
+from db.connection import get_conn
+_DB_ENABLED = True
 
 # ─── Load source CSVs ────────────────────────────────────────────────────────
-print("Loading source CSVs...")
-df_artists  = pd.read_csv(os.path.join(DATA_DIR, 'artists.csv'))
-df_charts   = pd.read_csv(os.path.join(DATA_DIR, 'spotify_charts.csv'))
-df_kworb    = pd.read_csv(os.path.join(DATA_DIR, 'kworb_crosschart.csv'))
-df_social   = pd.read_csv(os.path.join(DATA_DIR, 'social_blade_growth.csv'))
-df_media    = pd.read_csv(os.path.join(DATA_DIR, 'media_mentions.csv'))
-df_audience = pd.read_csv(os.path.join(DATA_DIR, 'audience_segments.csv'))
+print("Loading data from DB...")
+with get_conn() as conn:
+    df_artists  = pd.read_sql("SELECT * FROM artists", conn)
+    df_charts   = pd.read_sql("SELECT * FROM spotify_charts", conn)
+    df_kworb    = pd.read_sql("SELECT * FROM kworb_crosschart", conn)
+    df_social   = pd.read_sql("SELECT * FROM social_blade_growth", conn)
+    df_media    = pd.read_sql("SELECT * FROM media_mentions", conn)
+    df_audience = pd.read_sql("SELECT * FROM audience_segments", conn)
 
 df_charts['date'] = pd.to_datetime(df_charts['date'])
 df_media['date']  = pd.to_datetime(df_media['date'])
@@ -391,16 +389,14 @@ df_out = pd.DataFrame(output_rows, columns=[
     "audience_fit_tech", "audience_fit_sport", "audience_fit_finance",
     "week_date",
 ])
-df_out.to_csv(OUTPUT, index=False)
-print(f"Written {len(df_out)} rows → {OUTPUT}")
 
-# ─── Write to database ────────────────────────────────────────────────────────────────────────
-if _DB_ENABLED:
-    try:
-        n = upsert_scores_weekly(output_rows)
-        print(f"[DB] upserted {n} scores_weekly rows (incl. audience_fit child rows)")
-    except Exception as _e:
-        print(f"[DB] scores_weekly upsert failed: {_e}")
+# ─── Write to database ────────────────────────────────────────────────────────
+try:
+    n = upsert_scores_weekly(output_rows)
+    print(f"\n[DB] upserted {n} scores_weekly rows (incl. audience_fit child rows)")
+except Exception as _e:
+    print(f"\n[DB] scores_weekly upsert failed: {_e}")
+    raise
 
 
 # ─── Console summary: top 5 by momentum (averaged across territories) ────────

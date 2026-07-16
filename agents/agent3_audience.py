@@ -27,13 +27,11 @@ from model_router import call_llm
 
 load_dotenv(os.path.join(PROJECT_ROOT, '.env'))
 
-# ─── DB writers (optional) ─────────────────────────────────────────────────────────────────
-try:
-    from db.writers import upsert_audience_results
-    _DB_ENABLED = True
-except Exception as _db_err:
-    print(f"  [agent3] DB writers unavailable ({_db_err}); CSV-only mode.")
-    _DB_ENABLED = False
+# ─── DB writers & connection ──────────────────────────────────────────────────
+from db.writers import upsert_audience_results
+from db.readers import read_agent2
+from db.connection import get_conn
+_DB_ENABLED = True
 
 # ─── Paths ────────────────────────────────────────────────────────────────────
 DATA_DIR = os.path.join(PROJECT_ROOT, 'data')
@@ -227,10 +225,11 @@ def run_agent(run_id: str | None = None) -> list[dict]:
 
     # ── Load data ──────────────────────────────────────────────────
     print("Loading data...")
-    df_agent2  = pd.read_csv(os.path.join(DATA_DIR, 'agent2_output.csv'))
-    df_segs    = pd.read_csv(os.path.join(DATA_DIR, 'audience_segments.csv'))
-    df_scores  = pd.read_csv(os.path.join(DATA_DIR, 'scores_weekly.csv'))
-    df_artists = pd.read_csv(os.path.join(DATA_DIR, 'artists.csv'))
+    df_agent2 = pd.DataFrame(read_agent2(run_id))
+    with get_conn() as conn:
+        df_segs    = pd.read_sql("SELECT * FROM audience_segments", conn)
+        df_scores  = pd.read_sql("SELECT * FROM scores_weekly", conn)
+        df_artists = pd.read_sql("SELECT * FROM artists", conn)
 
     latest_week = df_scores['week_date'].max()
     df_scores = df_scores[df_scores['week_date'] == latest_week].copy()
@@ -305,23 +304,14 @@ def run_agent(run_id: str | None = None) -> list[dict]:
             "generated_at":       generated_at,
         })
 
-    # ── Write CSV ──────────────────────────────────────────────────
-    df_out = pd.DataFrame(results, columns=[
-        "artist_id", "artist_name", "best_brand_category", "total_reach",
-        "primary_market", "secondary_market", "primary_platform",
-        "audience_fit_score", "data_confidence", "proxy_pct", "firstparty_pct",
-        "audience_summary", "llm_status", "generated_at",
-    ])
-    df_out.to_csv(OUTPUT, index=False)
-    print(f"\n  Written {len(df_out)} rows → {OUTPUT}")
-
-    # ── Write to DB ──────────────────────────────────────────────
-    if _DB_ENABLED and run_id:
+    # ── Write to DB ────────────────────────────────────────────────
+    if run_id:
         try:
             upsert_audience_results(run_id, results)
-            print(f"  [DB] audience results saved for run {run_id}")
+            print(f"\n  [DB] audience results saved for run {run_id}")
         except Exception as _e:
-            print(f"  [DB] failed to save results: {_e}")
+            print(f"\n  [DB] failed to save results: {_e}")
+            raise
 
     # ── Console summary ────────────────────────────────────────────
     print("\n" + "━" * 80)

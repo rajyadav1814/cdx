@@ -22,16 +22,10 @@ DATA_DIR = os.path.join(PROJECT_ROOT, 'data')
 WEB_DIST = os.path.join(PROJECT_ROOT, 'web', 'dist')
 PORT = int(os.environ.get('PORT', 8000))
 
-# ─── DB readers (optional — graceful fallback to CSV if DB not configured) ──────
-try:
-    from db.readers import (
-        read_agent1, read_agent2, read_agent3, read_agent4,
-        read_roi_scenarios, read_pipeline_summary, load_agent_context_db,
-    )
-    _DB_ENABLED = True
-except Exception as _db_err:
-    print(f"[main] DB readers unavailable ({_db_err}); falling back to CSV.")
-    _DB_ENABLED = False
+from db.readers import (
+    read_agent1, read_agent2, read_agent3, read_agent4,
+    read_roi_scenarios, read_pipeline_summary, load_agent_context_db,
+)
 
 # ─── model registry (loaded once at startup) ───────────────────────────────────
 with open(os.path.join(PROJECT_ROOT, 'models.json')) as _f:
@@ -87,18 +81,6 @@ AGENT_CSVS = {
 
 def now_iso():
     return datetime.now(timezone.utc).isoformat()
-
-def read_csv_as_json(filename):
-    """CSV fallback reader (used when DB is unavailable)."""
-    path = os.path.join(DATA_DIR, filename)
-    if not os.path.exists(path):
-        return []
-    try:
-        df = pd.read_csv(path)
-        return json.loads(df.to_json(orient='records'))
-    except Exception:
-        return []
-
 
 def load_agent_context(agent_key, artist_filter=None):
     """CSV fallback context loader (used when DB is unavailable)."""
@@ -201,76 +183,45 @@ def api_models():
 
 @app.get("/api/summary")
 def api_summary():
-    # Prefer live DB summary
-    if _DB_ENABLED:
-        try:
-            return read_pipeline_summary()
-        except Exception:
-            pass
-    # Fallback: read from pipeline_summary.json
-    summary_path = os.path.join(DATA_DIR, 'pipeline_summary.json')
-    if os.path.exists(summary_path):
-        try:
-            with open(summary_path) as f:
-                return json.load(f)
-        except Exception:
-            pass
-    return get_default_summary()
+    try:
+        return read_pipeline_summary()
+    except Exception:
+        return get_default_summary()
 
 @app.get("/api/agent1")
 def api_agent1():
-    if _DB_ENABLED:
-        try:
-            data = read_agent1()
-            if data:
-                return data
-        except Exception:
-            pass
-    return read_csv_as_json('agent1_output.csv')
+    try:
+        return read_agent1() or []
+    except Exception:
+        return []
 
 @app.get("/api/agent2")
 def api_agent2():
-    if _DB_ENABLED:
-        try:
-            data = read_agent2()
-            if data:
-                return data
-        except Exception:
-            pass
-    return read_csv_as_json('agent2_output.csv')
+    try:
+        return read_agent2() or []
+    except Exception:
+        return []
 
 @app.get("/api/agent3")
 def api_agent3():
-    if _DB_ENABLED:
-        try:
-            data = read_agent3()
-            if data:
-                return data
-        except Exception:
-            pass
-    return read_csv_as_json('agent3_output.csv')
+    try:
+        return read_agent3() or []
+    except Exception:
+        return []
 
 @app.get("/api/agent4")
 def api_agent4():
-    if _DB_ENABLED:
-        try:
-            data = read_agent4()
-            if data:
-                return data
-        except Exception:
-            pass
-    return read_csv_as_json('agent4_output.csv')
+    try:
+        return read_agent4() or []
+    except Exception:
+        return []
 
 @app.get("/api/roi_scenarios")
 def api_roi_scenarios():
-    if _DB_ENABLED:
-        try:
-            data = read_roi_scenarios()
-            if data:
-                return data
-        except Exception:
-            pass
-    return read_csv_as_json('roi_scenarios_detail.csv')
+    try:
+        return read_roi_scenarios() or []
+    except Exception:
+        return []
 
 @app.get("/api/pipeline_status")
 def api_pipeline_status():
@@ -361,7 +312,7 @@ def api_chat(agent_key: str, payload: ChatPayload):
         }
     model_label = model_label_or_provider
 
-    context_data = load_agent_context_db(agent_key, artist_filter) if _DB_ENABLED else load_agent_context(agent_key, artist_filter)
+    context_data = load_agent_context_db(agent_key, artist_filter)
     system_prompt = (
         AGENT_SYSTEM_PROMPTS[agent_key] +
         f"\n\nData context:\n{json.dumps(context_data, indent=2, default=str)}"

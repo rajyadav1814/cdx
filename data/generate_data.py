@@ -528,10 +528,12 @@ for i, a in enumerate(ARTISTS):
     })
 
 df_artists = pd.DataFrame(artists_rows)
-df_artists.to_csv(os.path.join(DATA_DIR, "artists.csv"), index=False)
-if _DB_ENABLED:
+try:
     n = upsert_artists(artists_rows)
     print(f"  [DB] upserted {n} artist rows")
+except Exception as _e:
+    print(f"  [DB] artist upsert failed: {_e}")
+    raise
 
 # Build lookup maps
 artist_id_map   = {row["name"]: row["artist_id"] for row in artists_rows}
@@ -743,10 +745,12 @@ for i, a in enumerate(ARTISTS):
         "territories_charting": ", ".join(sorted(terrs)),
     })
 
-pd.DataFrame(crosschart_rows).to_csv(os.path.join(DATA_DIR, "kworb_crosschart.csv"), index=False)
-if _DB_ENABLED:
+try:
     n = upsert_kworb_crosschart(crosschart_rows)
     print(f"  [DB] upserted {n} kworb crosschart rows")
+except Exception as _e:
+    print(f"  [DB] kworb crosschart upsert failed: {_e}")
+    raise
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # STEP 6 — GENERATE social_blade_growth.csv (200 rows)
@@ -790,10 +794,12 @@ for i, a in enumerate(ARTISTS):
             "engagement_rate":  eng,
         })
 
-pd.DataFrame(social_rows).to_csv(os.path.join(DATA_DIR, "social_blade_growth.csv"), index=False)
-if _DB_ENABLED:
+try:
     n = upsert_social_growth(social_rows)
     print(f"  [DB] upserted {n} social growth rows")
+except Exception as _e:
+    print(f"  [DB] social growth upsert failed: {_e}")
+    raise
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # STEP 7 — GENERATE media_mentions.csv (150 rows)
@@ -884,11 +890,13 @@ for i, a in enumerate(ARTISTS):
     if len(mention_rows) >= 150:
         break
 
-pd.DataFrame(mention_rows[:150]).to_csv(os.path.join(DATA_DIR, "media_mentions.csv"), index=False)
-if _DB_ENABLED:
+try:
     truncate_media_mentions()
     n = insert_media_mentions(mention_rows[:150])
     print(f"  [DB] inserted {n} media mention rows")
+except Exception as _e:
+    print(f"  [DB] media mention upsert failed: {_e}")
+    raise
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # STEP 8 — GENERATE audience_segments.csv (200 rows)
@@ -1020,10 +1028,12 @@ for i, a in enumerate(ARTISTS):
             "source_type":      source_type,
         })
 
-pd.DataFrame(segment_rows[:200]).to_csv(os.path.join(DATA_DIR, "audience_segments.csv"), index=False)
-if _DB_ENABLED:
+try:
     n = upsert_audience_segments(segment_rows[:200])
     print(f"  [DB] upserted {n} audience segment rows")
+except Exception as _e:
+    print(f"  [DB] audience segment upsert failed: {_e}")
+    raise
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # STEP 9 — GENERATE client_campaigns.csv (50 rows)
@@ -1115,46 +1125,23 @@ for category in categories:
         })
         campaign_id += 1
 
-pd.DataFrame(campaign_rows).to_csv(os.path.join(DATA_DIR, "client_campaigns.csv"), index=False)
-if _DB_ENABLED:
+try:
     n = upsert_client_campaigns(campaign_rows)
     print(f"  [DB] upserted {n} client campaign rows")
+except Exception as _e:
+    print(f"  [DB] client campaign upsert failed: {_e}")
+    raise
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # STEP 10 — PRINT SUMMARY
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-files = {
-    "artists.csv":             "artists.csv",
-    "spotify_charts.csv":      "spotify_charts.csv",
-    "kworb_crosschart.csv":    "kworb_crosschart.csv",
-    "social_blade_growth.csv": "social_blade_growth.csv",
-    "media_mentions.csv":      "media_mentions.csv",
-    "audience_segments.csv":   "audience_segments.csv",
-    "client_campaigns.csv":    "client_campaigns.csv",
-}
-
-live_used = len(live_chart_data) > 0
-n_live_territories = len(live_chart_data)
-
-top5 = sorted(artists_rows, key=lambda x: x["spotify_monthly_listeners"], reverse=True)[:5]
-start_date = str(weekly_dates[0])
-end_date = str(weekly_dates[-1])
-
 print("\n" + "━" * 51)
 print("  CDX — CSIE Data Generation Complete")
 print("━" * 51)
-for fname, path in files.items():
-    full_path = os.path.join(DATA_DIR, path)
-    df_tmp = pd.read_csv(full_path)
-    print(f"  {fname:<28} {len(df_tmp):>4} rows")
+print(f"  {'Artists':<28} {len(artists_rows):>4} rows")
+print(f"  {'Spotify Charts':<28} {len(chart_rows):>4} rows")
+print(f"  {'Audience Segments':<28} {len(segment_rows[:200]):>4} rows")
+print(f"  {'Client Campaigns':<28} {len(campaign_rows):>4} rows")
 print()
-print(f"  Live Kworb data used: {'YES' if live_used else 'NO'} ({n_live_territories} territories scraped)")
-print("  Top 5 artists by listeners:")
-for j, art in enumerate(top5, 1):
-    ml = art['spotify_monthly_listeners']
-    print(f"    {j}. {art['name']:<28} {ml/1_000_000:.1f}M monthly")
-print(f"  Territories: {', '.join(TERRITORIES)}")
-print(f"  Date range: {start_date} to {end_date}")
-print("  Seed: 42")
 print("━" * 51)
