@@ -29,7 +29,7 @@ export default function TypingIndicator({ modelLabel, accentColor }) {
         </div>
         {modelLabel && (
           <span className="text-[10px] text-text-muted">
-            Thinking with {modelLabel}...
+            Thinking...
           </span>
         )}
       </div>
