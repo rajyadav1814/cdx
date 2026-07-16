@@ -64,6 +64,66 @@ def scrape_kworb_charts():
     """Scrape top-20 chart positions per territory. Returns dict of
     {territory: [(position, artist_name, track_title, streams), ...]}
     Returns empty dict on any failure — data generation continues."""
+    import urllib.request
+    import urllib.error
+
+    results = {}
+
+    # Try request-based scraping first (works on static pages, no Playwright/browser required)
+    print("  Attempting request-based scrape (no headless browser)...")
+    try:
+        for territory, url in KWORB_URLS.items():
+            try:
+                req = urllib.request.Request(
+                    url,
+                    headers={"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"}
+                )
+                with urllib.request.urlopen(req, timeout=10) as response:
+                    html = response.read().decode('utf-8', errors='ignore')
+
+                tbody_match = re.search(r'<tbody>(.*?)</tbody>', html, re.DOTALL | re.IGNORECASE)
+                if not tbody_match:
+                    continue
+
+                tbody = tbody_match.group(1)
+                rows = re.findall(r'<tr>(.*?)</tr>', tbody, re.DOTALL | re.IGNORECASE)
+                chart_rows = []
+
+                for row in rows[:20]:
+                    cells = re.findall(r'<td.*?>(.*?)</td>', row, re.DOTALL | re.IGNORECASE)
+                    if len(cells) >= 7:
+                        pos_raw = re.sub(r'<.*?>', '', cells[0]).strip()
+                        pos = int(re.sub(r'[^0-9]', '', pos_raw))
+
+                        artist_track = re.sub(r'<.*?>', '', cells[2]).strip()
+                        artist_track = re.sub(r'\s+', ' ', artist_track)
+
+                        streams_raw = re.sub(r'<.*?>', '', cells[6]).strip()
+                        streams = int(re.sub(r'[^0-9]', '', streams_raw))
+
+                        if " - " in artist_track:
+                            parts = artist_track.split(" - ", 1)
+                            artist = parts[0].strip()
+                            track = re.sub(r'\s*\(w\/.*', '', parts[1]).strip()
+                        else:
+                            artist = artist_track
+                            track = "Unknown Track"
+
+                        chart_rows.append((pos, artist, track, streams))
+
+                results[territory] = chart_rows
+                print(f"    Scraped {len(chart_rows)} rows for {territory}")
+                time.sleep(0.5)
+            except Exception as e:
+                print(f"    Request-based scrape skipped {territory}: {e}")
+
+        if results:
+            return results
+    except Exception as e:
+        print(f"Request-based scrape failed: {e}")
+
+    # Fallback to Playwright if request-based failed completely
+    print("  Falling back to Playwright scrape...")
     results = {}
     try:
         from playwright.sync_api import sync_playwright
