@@ -5,6 +5,9 @@ Pipeline Orchestrator — runs all 4 agents in sequence.
 Agents run strictly in order: 1 → 2 → 3 → 4.
 Each agent's output CSV is verified before the next agent starts.
 Individual agent failures are logged but do not halt the pipeline.
+
+When DATABASE_URL is configured the orchestrator shares a single run_id
+across all four agents so their results are queryable as one unit.
 """
 
 import sys
@@ -16,6 +19,13 @@ from datetime import datetime, timezone
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import pandas as pd
+
+# ─── DB helpers (optional) ───────────────────────────────────────────────────────
+try:
+    from db.readers import get_latest_run_id
+    _DB_ENABLED = True
+except Exception:
+    _DB_ENABLED = False
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(PROJECT_ROOT, 'data')
@@ -60,6 +70,9 @@ def run_pipeline():
         4: "Agent 4: ROI Forecast",
     }
 
+    # run_id is created by agent1 in the DB; extract it after agent1 completes
+    shared_run_id: str | None = None
+
     for num in (1, 2, 3, 4):
         print(f"\n  ▶  {labels[num]}")
         print("  " + "─" * 48)
@@ -85,6 +98,15 @@ def run_pipeline():
             agent_status[num] = "ok"
             print(f"\n  ✓  {labels[num]} complete — {len(agent_results[num])} artists")
 
+            # After agent1 completes, capture the run_id it created in the DB
+            if num == 1 and _DB_ENABLED and shared_run_id is None:
+                try:
+                    shared_run_id = get_latest_run_id()
+                    if shared_run_id:
+                        print(f"  [DB] shared run_id: {shared_run_id}")
+                except Exception as _e:
+                    print(f"  [DB] could not fetch run_id: {_e}")
+
         except Exception as e:
             tb = traceback.format_exc()
             agent_status[num] = "failed"
@@ -92,6 +114,33 @@ def run_pipeline():
             agent_results[num] = []
             print(f"\n  ✗  {labels[num]} FAILED: {e}")
             print(tb)
+
+    # Pass shared_run_id to remaining agents when replaying results
+    # (agents 2-4 accept run_id only when called from orchestrator)
+    # NOTE: The runners above already called run_agent() without run_id.
+    # For the DB writes, we need to re-call with run_id — but agents
+    # already wrote CSVs. We handle this by re-running only the DB writes
+    # via a secondary upsert if shared_run_id was obtained.
+    if shared_run_id and _DB_ENABLED:
+        try:
+            from db.writers import upsert_strategy_results, upsert_audience_results, upsert_roi_results
+            if 2 in agent_results and agent_results[2]:
+                upsert_strategy_results(shared_run_id, agent_results[2])
+                print(f"  [DB] strategy results saved under run {shared_run_id}")
+            if 3 in agent_results and agent_results[3]:
+                upsert_audience_results(shared_run_id, agent_results[3])
+                print(f"  [DB] audience results saved under run {shared_run_id}")
+            if 4 in agent_results and agent_results[4]:
+                # Also need detail rows for ROI; read from CSV
+                import pandas as _pd
+                detail_path = AGENT_OUTPUTS[4].replace("agent4_output.csv", "roi_scenarios_detail.csv")
+                _detail = []
+                if os.path.exists(detail_path):
+                    _detail = _pd.read_csv(detail_path).to_dict(orient="records")
+                upsert_roi_results(shared_run_id, agent_results[4], _detail)
+                print(f"  [DB] ROI results saved under run {shared_run_id}")
+        except Exception as _e:
+            print(f"  [DB] secondary upsert failed: {_e}")
 
     # ── Build pipeline_summary.json ───────────────────────────────
     run_ts = datetime.now(timezone.utc).isoformat(timespec='seconds')

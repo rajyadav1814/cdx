@@ -8,13 +8,23 @@ All output scores are normalized 0–100.
 """
 
 import os
+import sys
 import pandas as pd
 import numpy as np
 
 # ─── Paths ─────────────────────────────────────────────────────────────────── #
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, PROJECT_ROOT)
 DATA_DIR = os.path.join(PROJECT_ROOT, 'data')
 OUTPUT   = os.path.join(DATA_DIR, 'scores_weekly.csv')
+
+# ─── DB writer (optional) ─────────────────────────────────────────────────────
+try:
+    from db.writers import upsert_scores_weekly
+    _DB_ENABLED = True
+except Exception as _db_err:
+    print(f"  [scoring_engine] DB writer unavailable ({_db_err}); CSV-only mode.")
+    _DB_ENABLED = False
 
 # ─── Load source CSVs ────────────────────────────────────────────────────────
 print("Loading source CSVs...")
@@ -383,6 +393,14 @@ df_out = pd.DataFrame(output_rows, columns=[
 ])
 df_out.to_csv(OUTPUT, index=False)
 print(f"Written {len(df_out)} rows → {OUTPUT}")
+
+# ─── Write to database ────────────────────────────────────────────────────────────────────────
+if _DB_ENABLED:
+    try:
+        n = upsert_scores_weekly(output_rows)
+        print(f"[DB] upserted {n} scores_weekly rows (incl. audience_fit child rows)")
+    except Exception as _e:
+        print(f"[DB] scores_weekly upsert failed: {_e}")
 
 
 # ─── Console summary: top 5 by momentum (averaged across territories) ────────

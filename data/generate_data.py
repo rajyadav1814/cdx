@@ -7,14 +7,38 @@ Kworb.net Spotify charts. Uses Playwright to scrape live chart data
 (best-effort; falls back to hardcoded reference data gracefully).
 
 Seed: 42 (fully reproducible)
+
+Also writes all generated data to the PostgreSQL database configured
+by DATABASE_URL in ~/cdx/.env (via db.writers).
 """
 
 import os
+import sys
 import random
 import time
 import re
 from datetime import timedelta, date
 import pandas as pd
+
+# ─── DB writers (optional — graceful fallback if DB not configured) ───────────
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, PROJECT_ROOT)
+
+try:
+    from db.writers import (
+        upsert_artists,
+        upsert_spotify_charts,
+        upsert_kworb_crosschart,
+        upsert_social_growth,
+        truncate_media_mentions,
+        insert_media_mentions,
+        upsert_audience_segments,
+        upsert_client_campaigns,
+    )
+    _DB_ENABLED = True
+except Exception as _db_err:
+    print(f"  [generate_data] DB writers unavailable ({_db_err}); CSV-only mode.")
+    _DB_ENABLED = False
 
 # ─── Seed for reproducibility ────────────────────────────────────────────────
 random.seed(42)
@@ -505,6 +529,9 @@ for i, a in enumerate(ARTISTS):
 
 df_artists = pd.DataFrame(artists_rows)
 df_artists.to_csv(os.path.join(DATA_DIR, "artists.csv"), index=False)
+if _DB_ENABLED:
+    n = upsert_artists(artists_rows)
+    print(f"  [DB] upserted {n} artist rows")
 
 # Build lookup maps
 artist_id_map   = {row["name"]: row["artist_id"] for row in artists_rows}
@@ -676,6 +703,11 @@ while len(chart_rows) < 300:
 
 df_charts = pd.DataFrame(chart_rows)
 df_charts.to_csv(os.path.join(DATA_DIR, "spotify_charts.csv"), index=False)
+if _DB_ENABLED:
+    # Only upsert rows that have an ART_xxx artist_id (skip LIVE_xxx bonus rows)
+    _chart_db_rows = [r for r in chart_rows if str(r.get("artist_id", "")).startswith("ART_")]
+    n = upsert_spotify_charts(_chart_db_rows)
+    print(f"  [DB] upserted {n} spotify chart rows")
 
 # Build set of territories per artist (from chart data)
 artist_territories = {}
@@ -712,6 +744,9 @@ for i, a in enumerate(ARTISTS):
     })
 
 pd.DataFrame(crosschart_rows).to_csv(os.path.join(DATA_DIR, "kworb_crosschart.csv"), index=False)
+if _DB_ENABLED:
+    n = upsert_kworb_crosschart(crosschart_rows)
+    print(f"  [DB] upserted {n} kworb crosschart rows")
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # STEP 6 — GENERATE social_blade_growth.csv (200 rows)
@@ -756,6 +791,9 @@ for i, a in enumerate(ARTISTS):
         })
 
 pd.DataFrame(social_rows).to_csv(os.path.join(DATA_DIR, "social_blade_growth.csv"), index=False)
+if _DB_ENABLED:
+    n = upsert_social_growth(social_rows)
+    print(f"  [DB] upserted {n} social growth rows")
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # STEP 7 — GENERATE media_mentions.csv (150 rows)
@@ -847,6 +885,10 @@ for i, a in enumerate(ARTISTS):
         break
 
 pd.DataFrame(mention_rows[:150]).to_csv(os.path.join(DATA_DIR, "media_mentions.csv"), index=False)
+if _DB_ENABLED:
+    truncate_media_mentions()
+    n = insert_media_mentions(mention_rows[:150])
+    print(f"  [DB] inserted {n} media mention rows")
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # STEP 8 — GENERATE audience_segments.csv (200 rows)
@@ -979,6 +1021,9 @@ for i, a in enumerate(ARTISTS):
         })
 
 pd.DataFrame(segment_rows[:200]).to_csv(os.path.join(DATA_DIR, "audience_segments.csv"), index=False)
+if _DB_ENABLED:
+    n = upsert_audience_segments(segment_rows[:200])
+    print(f"  [DB] upserted {n} audience segment rows")
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # STEP 9 — GENERATE client_campaigns.csv (50 rows)
@@ -1071,6 +1116,9 @@ for category in categories:
         campaign_id += 1
 
 pd.DataFrame(campaign_rows).to_csv(os.path.join(DATA_DIR, "client_campaigns.csv"), index=False)
+if _DB_ENABLED:
+    n = upsert_client_campaigns(campaign_rows)
+    print(f"  [DB] upserted {n} client campaign rows")
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # STEP 10 — PRINT SUMMARY

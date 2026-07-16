@@ -26,6 +26,17 @@ from model_router import call_llm
 
 load_dotenv(os.path.join(PROJECT_ROOT, '.env'))
 
+# ─── DB writers (optional) ────────────────────────────────────────────────────
+try:
+    from db.writers import (
+        create_pipeline_run, complete_pipeline_run,
+        fail_pipeline_run, upsert_opportunity_results,
+    )
+    _DB_ENABLED = True
+except Exception as _db_err:
+    print(f"  [agent1] DB writers unavailable ({_db_err}); CSV-only mode.")
+    _DB_ENABLED = False
+
 # ─── Paths ────────────────────────────────────────────────────────────────────
 DATA_DIR = os.path.join(PROJECT_ROOT, 'data')
 OUTPUT   = os.path.join(DATA_DIR, 'agent1_output.csv')
@@ -160,6 +171,15 @@ def run_agent() -> list[dict]:
     print("  CSIE — Agent 1: Opportunity Discovery")
     print("━" * 60)
 
+    # ── Create DB pipeline run ─────────────────────────────────────────
+    run_id: str | None = None
+    if _DB_ENABLED:
+        try:
+            run_id = create_pipeline_run(triggered_by="agent1")
+            print(f"  [DB] pipeline run created: {run_id}")
+        except Exception as _e:
+            print(f"  [DB] could not create pipeline run: {_e}")
+
     # ── Load data ──────────────────────────────────────────────────
     print("Loading data...")
     df_scores  = pd.read_csv(os.path.join(DATA_DIR, 'scores_weekly.csv'))
@@ -247,6 +267,20 @@ def run_agent() -> list[dict]:
     ])
     df_out.to_csv(OUTPUT, index=False)
     print(f"\n  Written {len(df_out)} rows → {OUTPUT}")
+
+    # ── Write to DB ────────────────────────────────────────────────
+    if _DB_ENABLED and run_id:
+        try:
+            upsert_opportunity_results(run_id, results)
+            complete_pipeline_run(run_id)
+            print(f"  [DB] opportunity results saved, run {run_id} marked complete")
+        except Exception as _e:
+            print(f"  [DB] failed to save results: {_e}")
+            try:
+                fail_pipeline_run(run_id)
+            except Exception:
+                pass
+
 
     # ── Console summary table ──────────────────────────────────────
     print("\n" + "━" * 74)

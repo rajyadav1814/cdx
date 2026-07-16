@@ -27,6 +27,14 @@ from model_router import call_llm
 
 load_dotenv(os.path.join(PROJECT_ROOT, '.env'))
 
+# ─── DB writers (optional) ─────────────────────────────────────────────────────────────────
+try:
+    from db.writers import upsert_audience_results
+    _DB_ENABLED = True
+except Exception as _db_err:
+    print(f"  [agent3] DB writers unavailable ({_db_err}); CSV-only mode.")
+    _DB_ENABLED = False
+
 # ─── Paths ────────────────────────────────────────────────────────────────────
 DATA_DIR = os.path.join(PROJECT_ROOT, 'data')
 OUTPUT   = os.path.join(DATA_DIR, 'agent3_output.csv')
@@ -211,7 +219,7 @@ def call_agent_llm(context: dict) -> dict:
     return json.loads(raw.strip())
 
 
-def run_agent() -> list[dict]:
+def run_agent(run_id: str | None = None) -> list[dict]:
     """Main entry point. Returns list of result dicts."""
     print("━" * 60)
     print("  CSIE — Agent 3: Audience-Fit")
@@ -306,6 +314,14 @@ def run_agent() -> list[dict]:
     ])
     df_out.to_csv(OUTPUT, index=False)
     print(f"\n  Written {len(df_out)} rows → {OUTPUT}")
+
+    # ── Write to DB ──────────────────────────────────────────────
+    if _DB_ENABLED and run_id:
+        try:
+            upsert_audience_results(run_id, results)
+            print(f"  [DB] audience results saved for run {run_id}")
+        except Exception as _e:
+            print(f"  [DB] failed to save results: {_e}")
 
     # ── Console summary ────────────────────────────────────────────
     print("\n" + "━" * 80)
