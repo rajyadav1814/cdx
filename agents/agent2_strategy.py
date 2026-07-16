@@ -97,25 +97,26 @@ def build_strategy_context(
     scores_df: pd.DataFrame,
     media_df: pd.DataFrame,
     artist_row: pd.Series,
+    fit_df: pd.DataFrame = None,
 ) -> dict:
     """Assemble all signal data for one artist into the LLM context dict."""
     aid = agent1_row['artist_id']
 
-    # ── Audience fit scores (averaged across territories) ─────────────────
-    artist_scores = scores_df[scores_df['artist_id'] == aid]
-    fit_scores = {}
-    for cat in BRAND_CATEGORIES:
-        col = f"audience_fit_{cat.lower()}"
-        if col in artist_scores.columns and len(artist_scores) > 0:
-            fit_scores[cat] = round(float(artist_scores[col].mean()), 2)
-        else:
-            fit_scores[cat] = 0.0
+    # ── Audience fit scores from score_audience_fit table ─────────────────
+    fit_scores = {cat: 0.0 for cat in BRAND_CATEGORIES}
+    if fit_df is not None and not fit_df.empty:
+        artist_fits = fit_df[fit_df['artist_id'] == aid]
+        for cat in BRAND_CATEGORIES:
+            cat_rows = artist_fits[artist_fits['brand_category'] == cat]
+            if not cat_rows.empty:
+                fit_scores[cat] = round(float(cat_rows['fit_score'].mean()), 2)
 
     best_category = max(fit_scores, key=fit_scores.__getitem__)
     best_fit_score = fit_scores[best_category]
 
     # Narrative resonance (single value per artist)
     narrative_res = 0.0
+    artist_scores = scores_df[scores_df['artist_id'] == aid]
     if len(artist_scores) > 0:
         narrative_res = round(float(artist_scores['narrative_resonance_score'].iloc[0]), 2)
 
@@ -134,11 +135,6 @@ def build_strategy_context(
 
     min_sentiment = round(min(sentiments), 3) if sentiments else 1.0
     avg_sentiment = round(sum(sentiments) / len(sentiments), 3) if sentiments else 1.0
-
-    # Primary platform from audience segments (mode across segments)
-    platform_primary = "Spotify"
-    if 'platform_primary' in scores_df.columns:
-        pass  # not in scores_weekly; will use genre inference below
 
     return {
         "artist_id":    aid,
@@ -203,6 +199,12 @@ def run_agent(run_id: str | None = None) -> list[dict]:
         df_scores  = pd.read_sql("SELECT * FROM scores_weekly", conn)
         df_media   = pd.read_sql("SELECT * FROM media_mentions", conn)
         df_artists = pd.read_sql("SELECT * FROM artists", conn)
+        # Load audience fit scores joined with artist_id from scores_weekly
+        df_fit = pd.read_sql("""
+            SELECT sw.artist_id, saf.brand_category, saf.fit_score
+            FROM score_audience_fit saf
+            JOIN scores_weekly sw ON sw.id = saf.scores_weekly_id
+        """, conn)
 
     # Filter to most recent scoring week
     latest_week = df_scores['week_date'].max()
@@ -228,7 +230,7 @@ def run_agent(run_id: str | None = None) -> list[dict]:
             continue
         artist_row = artist_rows.iloc[0]
 
-        context = build_strategy_context(a1_row, df_scores, df_media, artist_row)
+        context = build_strategy_context(a1_row, df_scores, df_media, artist_row, df_fit)
 
         # Deterministic fallback values from context
         best_cat   = context["best_brand_category"]

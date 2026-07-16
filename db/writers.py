@@ -372,14 +372,15 @@ def upsert_scores_weekly(rows: list[dict]) -> int:
         with conn.cursor() as cur:
 
             # ── Step 2: single batch upsert, get back all IDs ─────────────
-            execute_values(
+            returned = execute_values(
                 cur,
                 _UPSERT_SCORES_BATCH,
                 scores_params,
-                fetch=True,          # collect RETURNING rows
+                fetch=True,          # returns RETURNING rows directly
                 page_size=500,
             )
-            returned = cur.fetchall()  # [(id, artist_id, territory, week_date), ...]
+            # NOTE: execute_values(fetch=True) returns the rows as its return value.
+            #       Do NOT call cur.fetchall() — the cursor is already exhausted.
 
             # Build lookup: (artist_id, territory, week_date_str) → scores_weekly id
             id_map: dict[tuple, int] = {
