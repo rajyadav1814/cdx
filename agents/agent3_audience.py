@@ -112,7 +112,7 @@ def compute_data_confidence(segments_df: pd.DataFrame) -> tuple[str, float, floa
 def build_audience_context(
     a2_row: pd.Series,
     segments_df: pd.DataFrame,
-    scores_df: pd.DataFrame,
+    fit_df: pd.DataFrame,
     artist_row: pd.Series,
 ) -> dict:
     """Assemble audience context for one artist."""
@@ -146,11 +146,11 @@ def build_audience_context(
         primary_platform = "Spotify"
 
     # ── Audience fit score for the best category ──────────────────
-    cat_col = f"audience_fit_{best_category.lower()}"
-    artist_scores = scores_df[scores_df['artist_id'] == aid]
     fit_score = 0.0
-    if cat_col in artist_scores.columns and len(artist_scores) > 0:
-        fit_score = round(float(artist_scores[cat_col].mean()), 2)
+    if fit_df is not None and not fit_df.empty:
+        artist_fits = fit_df[(fit_df['artist_id'] == aid) & (fit_df['brand_category'] == best_category)]
+        if not artist_fits.empty:
+            fit_score = round(float(artist_fits['fit_score'].mean()), 2)
 
     # ── Build segment detail list for LLM ─────────────────────────
     seg_details = []
@@ -230,9 +230,14 @@ def run_agent(run_id: str | None = None) -> list[dict]:
         df_segs    = pd.read_sql("SELECT * FROM audience_segments", conn)
         df_scores  = pd.read_sql("SELECT * FROM scores_weekly", conn)
         df_artists = pd.read_sql("SELECT * FROM artists", conn)
+        df_fit     = pd.read_sql("""
+            SELECT sw.artist_id, sw.week_date, saf.brand_category, saf.fit_score
+            FROM score_audience_fit saf
+            JOIN scores_weekly sw ON sw.id = saf.scores_weekly_id
+        """, conn)
 
     latest_week = df_scores['week_date'].max()
-    df_scores = df_scores[df_scores['week_date'] == latest_week].copy()
+    df_fit = df_fit[df_fit['week_date'] == latest_week].copy()
 
     print(f"  {len(df_agent2)} artists from Agent 2")
 
@@ -251,7 +256,7 @@ def run_agent(run_id: str | None = None) -> list[dict]:
             continue
         artist_row = artist_rows.iloc[0]
 
-        context = build_audience_context(a2_row, df_segs, df_scores, artist_row)
+        context = build_audience_context(a2_row, df_segs, df_fit, artist_row)
 
         # Deterministic values — LLM cannot override these
         confidence    = context["data_confidence"]
