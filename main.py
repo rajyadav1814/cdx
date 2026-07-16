@@ -4,7 +4,7 @@ import subprocess
 import uuid
 from datetime import datetime, timezone
 
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI, Request, HTTPException, BackgroundTasks
 from fastapi.responses import JSONResponse, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -225,18 +225,8 @@ def api_roi_scenarios():
 
 @app.get("/api/pipeline_status")
 def api_pipeline_status():
-    global _pipeline_process, _pipeline_status, _pipeline_last_run
-    if _pipeline_process is None:
-        return {'status': 'idle', 'last_run': None}
-    poll = _pipeline_process.poll()
-    if poll is None:
-        return {'status': 'running', 'last_run': None}
-    elif poll == 0:
-        _pipeline_status = 'complete'
-        return {'status': 'complete', 'last_run': _pipeline_last_run}
-    else:
-        _pipeline_status = 'error'
-        return {'status': 'error', 'last_run': _pipeline_last_run, 'exit_code': poll}
+    global _pipeline_status, _pipeline_last_run
+    return {'status': _pipeline_status, 'last_run': _pipeline_last_run}
 
 @app.get("/api/chat/clear")
 def api_chat_clear(session_id: str = ''):
@@ -244,18 +234,42 @@ def api_chat_clear(session_id: str = ''):
         del _sessions[session_id]
     return {'status': 'cleared', 'session_id': session_id}
 
-@app.post("/api/run_pipeline")
-def api_run_pipeline():
-    global _pipeline_process, _pipeline_status, _pipeline_last_run
-    script = os.path.join(PROJECT_ROOT, 'agents', 'run_all_agents.py')
-    _pipeline_process = subprocess.Popen(
-        [sys.executable, script],
-        cwd=PROJECT_ROOT,
-        env={**os.environ, 'PYTHONPATH': PROJECT_ROOT}
-    )
-    _pipeline_status = 'running'
+def run_pipeline_task():
+    global _pipeline_status, _pipeline_last_run
     _pipeline_last_run = now_iso()
-    return {'status': 'started', 'timestamp': _pipeline_last_run}
+
+    try:
+        _pipeline_status = 'Generating Data'
+        p1 = subprocess.run([sys.executable, 'data/generate_data.py'], cwd=PROJECT_ROOT)
+        if p1.returncode != 0:
+            _pipeline_status = 'Error: Generating Data'
+            return
+
+        _pipeline_status = 'Calculating Scores'
+        p2 = subprocess.run([sys.executable, 'scores/scoring_engine.py'], cwd=PROJECT_ROOT)
+        if p2.returncode != 0:
+            _pipeline_status = 'Error: Calculating Scores'
+            return
+
+        _pipeline_status = 'Running Agents'
+        p3 = subprocess.run([sys.executable, 'agents/run_all_agents.py'], cwd=PROJECT_ROOT)
+        if p3.returncode != 0:
+            _pipeline_status = 'Error: Running Agents'
+            return
+
+        _pipeline_status = 'complete'
+    except Exception as e:
+        _pipeline_status = f'error: {e}'
+
+@app.post("/api/run_pipeline")
+def api_run_pipeline(background_tasks: BackgroundTasks):
+    global _pipeline_status, _pipeline_last_run
+    if _pipeline_status in ('Generating Data', 'Calculating Scores', 'Running Agents'):
+        return {'status': 'already_running', 'timestamp': _pipeline_last_run}
+    
+    _pipeline_status = 'Starting Pipeline...'
+    background_tasks.add_task(run_pipeline_task)
+    return {'status': 'started', 'timestamp': now_iso()}
 
 class ChatPayload(BaseModel):
     message: str = ""
