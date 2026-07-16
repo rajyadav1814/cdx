@@ -27,10 +27,22 @@ _DB_ENABLED = True
 print("Loading data from DB...")
 with get_conn() as conn:
     df_artists  = pd.read_sql("SELECT * FROM artists", conn)
-    df_charts   = pd.read_sql("SELECT * FROM spotify_charts", conn)
-    df_kworb    = pd.read_sql("SELECT * FROM kworb_crosschart", conn)
-    df_social   = pd.read_sql("SELECT * FROM social_blade_growth", conn)
-    df_media    = pd.read_sql("SELECT * FROM media_mentions", conn)
+    df_charts   = pd.read_sql(
+        "SELECT id, chart_date AS date, territory, artist_id, track_title,"
+        " chart_position, streams_estimate, peak_position, weeks_on_chart"
+        " FROM spotify_chart_entries", conn)
+    df_kworb    = pd.read_sql(
+        "SELECT id, chart_date AS date, artist_id, platforms_charting,"
+        " peak_position_global, weeks_on_chart, territories_charting"
+        " FROM kworb_crosschart", conn)
+    df_social   = pd.read_sql(
+        "SELECT id, growth_date AS date, artist_id, platform,"
+        " followers_start, followers_end, growth_pct, engagement_rate"
+        " FROM social_growth", conn)
+    df_media    = pd.read_sql(
+        "SELECT id, mention_date AS date, artist_id, source,"
+        " headline, sentiment_score, cultural_topics"
+        " FROM media_mentions", conn)
     df_audience = pd.read_sql("SELECT * FROM audience_segments", conn)
 
 df_charts['date'] = pd.to_datetime(df_charts['date'])
