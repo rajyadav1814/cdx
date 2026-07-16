@@ -2,7 +2,7 @@
 CDX — Commercial Signal Intelligence Engine
 Scoring Engine — Prompt 2
 
-Reads 5 source CSVs from data/ and writes data/scores_weekly.csv.
+Reads source data from PostgreSQL and upserts scores_weekly + score_audience_fit.
 Pure Python/pandas deterministic math. No LLM calls.
 All output scores are normalized 0–100.
 """
@@ -12,18 +12,15 @@ import sys
 import pandas as pd
 import numpy as np
 
-# ─── Paths ─────────────────────────────────────────────────────────────────── #
+# ─── Project root ───────────────────────────────────────────────────────────── #
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, PROJECT_ROOT)
-DATA_DIR = os.path.join(PROJECT_ROOT, 'data')
-OUTPUT   = os.path.join(DATA_DIR, 'scores_weekly.csv')
 
 # ─── DB writers & connection ──────────────────────────────────────────────────
 from db.writers import upsert_scores_weekly
 from db.connection import get_conn
-_DB_ENABLED = True
 
-# ─── Load source CSVs ────────────────────────────────────────────────────────
+# ─── Load source data from DB ───────────────────────────────────────────────
 print("Loading data from DB...")
 with get_conn() as conn:
     df_artists  = pd.read_sql("SELECT * FROM artists", conn)
@@ -392,15 +389,8 @@ for _, artist in df_artists.iterrows():
         })
 
 
-# ─── Write output ────────────────────────────────────────────────────────────
-df_out = pd.DataFrame(output_rows, columns=[
-    "artist_id", "artist_name", "territory",
-    "momentum_score", "territory_fit_score", "cross_platform_score",
-    "narrative_resonance_score", "risk_flag_score",
-    "audience_fit_beverages", "audience_fit_fashion",
-    "audience_fit_tech", "audience_fit_sport", "audience_fit_finance",
-    "week_date",
-])
+# ─── Build summary DataFrame (console display only) ─────────────────────────
+df_out = pd.DataFrame(output_rows)
 
 # ─── Write to database ────────────────────────────────────────────────────────
 try:
