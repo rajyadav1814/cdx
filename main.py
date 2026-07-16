@@ -1,6 +1,8 @@
 import sys, os
 import json
 import subprocess
+import runpy
+import traceback
 import uuid
 from datetime import datetime, timezone
 
@@ -234,31 +236,44 @@ def api_chat_clear(session_id: str = ''):
         del _sessions[session_id]
     return {'status': 'cleared', 'session_id': session_id}
 
+def _run_script_in_process(relative_path):
+    """
+    Run a pipeline script inside THIS process instead of spawning a new
+    Python interpreter.
+
+    Why: on Vercel (and most serverless Python runtimes), third-party
+    packages like pandas are only importable inside the already-running
+    handler process - the runtime injects their location into sys.path
+    at startup. A subprocess.run([sys.executable, ...]) call starts a
+    brand-new interpreter that never goes through that setup, so imports
+    like `import pandas as pd` fail with ModuleNotFoundError even though
+    pandas works fine everywhere else in this same app. Running the
+    script with runpy in-process reuses the current interpreter's
+    sys.path/sys.modules, so it sees the same pandas (and everything
+    else) that main.py already imported. This also works identically
+    for local dev.
+    """
+    script_path = os.path.join(PROJECT_ROOT, relative_path)
+    runpy.run_path(script_path, run_name='__main__')
+
+
 def run_pipeline_task():
     global _pipeline_status, _pipeline_last_run
     _pipeline_last_run = now_iso()
 
     try:
         _pipeline_status = 'Generating Data'
-        p1 = subprocess.run([sys.executable, 'data/generate_data.py'], cwd=PROJECT_ROOT)
-        if p1.returncode != 0:
-            _pipeline_status = 'Error: Generating Data'
-            return
+        _run_script_in_process('data/generate_data.py')
 
         _pipeline_status = 'Calculating Scores'
-        p2 = subprocess.run([sys.executable, 'scores/scoring_engine.py'], cwd=PROJECT_ROOT)
-        if p2.returncode != 0:
-            _pipeline_status = 'Error: Calculating Scores'
-            return
+        _run_script_in_process('scores/scoring_engine.py')
 
         _pipeline_status = 'Running Agents'
-        p3 = subprocess.run([sys.executable, 'agents/run_all_agents.py'], cwd=PROJECT_ROOT)
-        if p3.returncode != 0:
-            _pipeline_status = 'Error: Running Agents'
-            return
+        _run_script_in_process('agents/run_all_agents.py')
 
         _pipeline_status = 'complete'
     except Exception as e:
+        traceback.print_exc()
         _pipeline_status = f'error: {e}'
 
 @app.post("/api/run_pipeline")
