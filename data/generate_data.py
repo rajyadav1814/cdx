@@ -527,7 +527,6 @@ for i, a in enumerate(ARTISTS):
         "youtube_subscribers":      int(a["yt_subs"]      * (1 + random.uniform(-0.02, 0.02))),
     })
 
-df_artists = pd.DataFrame(artists_rows)
 try:
     n = upsert_artists(artists_rows)
     print(f"  [DB] upserted {n} artist rows")
@@ -540,7 +539,7 @@ artist_id_map   = {row["name"]: row["artist_id"] for row in artists_rows}
 artist_name_map = {row["artist_id"]: row["name"]  for row in artists_rows}
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-# STEP 4 — GENERATE spotify_charts.csv (300 rows)
+# STEP 4 — GENERATE spotify_charts (300 rows)
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 TERRITORIES = ["MX", "CO", "AR", "BR", "ES", "CL", "PE", "US-Latin"]
@@ -703,13 +702,14 @@ while len(chart_rows) < 300:
         "weeks_on_chart":  random.randint(4, 16),
     })
 
-df_charts = pd.DataFrame(chart_rows)
-df_charts.to_csv(os.path.join(DATA_DIR, "spotify_charts.csv"), index=False)
-if _DB_ENABLED:
+try:
     # Only upsert rows that have an ART_xxx artist_id (skip LIVE_xxx bonus rows)
     _chart_db_rows = [r for r in chart_rows if str(r.get("artist_id", "")).startswith("ART_")]
     n = upsert_spotify_charts(_chart_db_rows)
     print(f"  [DB] upserted {n} spotify chart rows")
+except Exception as _e:
+    print(f"  [DB] spotify chart upsert failed: {_e}")
+    raise
 
 # Build set of territories per artist (from chart data)
 artist_territories = {}

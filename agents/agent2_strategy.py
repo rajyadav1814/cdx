@@ -84,6 +84,14 @@ Field rules:
 Return JSON only. No explanation outside the JSON object."""
 
 
+def _scalar_notna(val) -> bool:
+    """Return True iff *val* is a non-null scalar (safe for array values)."""
+    result = pd.notna(val)
+    if hasattr(result, '__len__'):
+        return bool(result.all())
+    return bool(result)
+
+
 def build_strategy_context(
     agent1_row: pd.Series,
     scores_df: pd.DataFrame,
@@ -116,12 +124,12 @@ def build_strategy_context(
     all_topics: set[str] = set()
     sentiments: list[float] = []
     for _, m in artist_media.iterrows():
-        if pd.notna(m.get('cultural_topics')):
+        if _scalar_notna(m.get('cultural_topics')):
             for t in str(m['cultural_topics']).split(','):
                 t = t.strip()
                 if t:
                     all_topics.add(t)
-        if pd.notna(m.get('sentiment_score')):
+        if _scalar_notna(m.get('sentiment_score')):
             sentiments.append(float(m['sentiment_score']))
 
     min_sentiment = round(min(sentiments), 3) if sentiments else 1.0
