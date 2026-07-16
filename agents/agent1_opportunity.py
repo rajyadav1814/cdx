@@ -26,9 +26,13 @@ from model_router import call_llm
 
 load_dotenv(os.path.join(PROJECT_ROOT, '.env'))
 
-# ─── Paths ────────────────────────────────────────────────────────────────────
-DATA_DIR = os.path.join(PROJECT_ROOT, 'data')
-OUTPUT   = os.path.join(DATA_DIR, 'agent1_output.csv')
+# ─── DB writers & connection ──────────────────────────────────────────────────
+from db.writers import (
+    create_pipeline_run, complete_pipeline_run,
+    fail_pipeline_run, upsert_opportunity_results,
+)
+from db.connection import get_conn
+_DB_ENABLED = True
 
 # ─── Prompts ──────────────────────────────────────────────────────────────────
 SYSTEM_PROMPT = """You are the Opportunity Discovery Agent for the Commercial Signal \
@@ -160,10 +164,20 @@ def run_agent() -> list[dict]:
     print("  CSIE — Agent 1: Opportunity Discovery")
     print("━" * 60)
 
+    # ── Create DB pipeline run ─────────────────────────────────────────
+    run_id: str | None = None
+    if _DB_ENABLED:
+        try:
+            run_id = create_pipeline_run(triggered_by="agent1")
+            print(f"  [DB] pipeline run created: {run_id}")
+        except Exception as _e:
+            print(f"  [DB] could not create pipeline run: {_e}")
+
     # ── Load data ──────────────────────────────────────────────────
     print("Loading data...")
-    df_scores  = pd.read_csv(os.path.join(DATA_DIR, 'scores_weekly.csv'))
-    df_artists = pd.read_csv(os.path.join(DATA_DIR, 'artists.csv'))
+    with get_conn() as conn:
+        df_scores  = pd.read_sql("SELECT * FROM scores_weekly", conn)
+        df_artists = pd.read_sql("SELECT * FROM artists", conn)
 
     # Filter to most recent week
     latest_week = df_scores['week_date'].max()
@@ -238,15 +252,19 @@ def run_agent() -> list[dict]:
             "generated_at":       generated_at,
         })
 
-    # ── Write CSV ──────────────────────────────────────────────────
-    df_out = pd.DataFrame(results, columns=[
-        "artist_id", "artist_name", "rank", "momentum_score",
-        "cross_platform_score", "risk_flag_score", "opportunity_class",
-        "top_territory_1", "top_territory_2", "narrative",
-        "llm_status", "generated_at",
-    ])
-    df_out.to_csv(OUTPUT, index=False)
-    print(f"\n  Written {len(df_out)} rows → {OUTPUT}")
+    # ── Write to DB ────────────────────────────────────────────────
+    if _DB_ENABLED and run_id:
+        try:
+            upsert_opportunity_results(run_id, results)
+            complete_pipeline_run(run_id)
+            print(f"  [DB] opportunity results saved, run {run_id} marked complete")
+        except Exception as _e:
+            print(f"  [DB] failed to save results: {_e}")
+            try:
+                fail_pipeline_run(run_id)
+            except Exception:
+                pass
+
 
     # ── Console summary table ──────────────────────────────────────
     print("\n" + "━" * 74)

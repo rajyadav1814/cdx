@@ -26,6 +26,12 @@ from model_router import call_llm
 
 load_dotenv(os.path.join(PROJECT_ROOT, '.env'))
 
+# ─── DB writers & connection ──────────────────────────────────────────────────
+from db.writers import upsert_strategy_results
+from db.readers import read_agent1
+from db.connection import get_conn
+_DB_ENABLED = True
+
 # ─── Paths ────────────────────────────────────────────────────────────────────
 DATA_DIR = os.path.join(PROJECT_ROOT, 'data')
 OUTPUT   = os.path.join(DATA_DIR, 'agent2_output.csv')
@@ -176,7 +182,7 @@ def call_agent_llm(context: dict) -> dict:
     return json.loads(raw.strip())
 
 
-def run_agent() -> list[dict]:
+def run_agent(run_id: str | None = None) -> list[dict]:
     """Main entry point. Returns list of result dicts."""
     print("━" * 60)
     print("  CSIE — Agent 2: Strategy Synthesis")
@@ -184,10 +190,11 @@ def run_agent() -> list[dict]:
 
     # ── Load data ──────────────────────────────────────────────────
     print("Loading data...")
-    df_agent1  = pd.read_csv(os.path.join(DATA_DIR, 'agent1_output.csv'))
-    df_scores  = pd.read_csv(os.path.join(DATA_DIR, 'scores_weekly.csv'))
-    df_media   = pd.read_csv(os.path.join(DATA_DIR, 'media_mentions.csv'))
-    df_artists = pd.read_csv(os.path.join(DATA_DIR, 'artists.csv'))
+    df_agent1 = pd.DataFrame(read_agent1(run_id))
+    with get_conn() as conn:
+        df_scores  = pd.read_sql("SELECT * FROM scores_weekly", conn)
+        df_media   = pd.read_sql("SELECT * FROM media_mentions", conn)
+        df_artists = pd.read_sql("SELECT * FROM artists", conn)
 
     # Filter to most recent scoring week
     latest_week = df_scores['week_date'].max()
@@ -257,15 +264,14 @@ def run_agent() -> list[dict]:
             "generated_at":        generated_at,
         })
 
-    # ── Write CSV ──────────────────────────────────────────────────
-    df_out = pd.DataFrame(results, columns=[
-        "artist_id", "artist_name", "best_brand_category", "brand_fit_score",
-        "activation_pillar_1", "activation_pillar_2", "activation_pillar_3",
-        "recommended_channel", "strategic_brief", "sentiment_risk",
-        "llm_status", "generated_at",
-    ])
-    df_out.to_csv(OUTPUT, index=False)
-    print(f"\n  Written {len(df_out)} rows → {OUTPUT}")
+    # ── Write to DB ────────────────────────────────────────────────
+    if _DB_ENABLED and run_id:
+        try:
+            upsert_strategy_results(run_id, results)
+            print(f"  [DB] strategy results saved for run {run_id}")
+        except Exception as _e:
+            print(f"  [DB] failed to save results: {_e}")
+
 
     # ── Console summary ────────────────────────────────────────────
     print("\n" + "━" * 78)

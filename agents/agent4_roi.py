@@ -26,6 +26,12 @@ from model_router import call_llm
 
 load_dotenv(os.path.join(PROJECT_ROOT, '.env'))
 
+# ─── DB writers & connection ──────────────────────────────────────────────────
+from db.writers import upsert_roi_results
+from db.readers import read_agent3
+from db.connection import get_conn
+_DB_ENABLED = True
+
 # ─── Paths ────────────────────────────────────────────────────────────────────
 DATA_DIR = os.path.join(PROJECT_ROOT, 'data')
 OUTPUT        = os.path.join(DATA_DIR, 'agent4_output.csv')
@@ -237,7 +243,7 @@ def call_agent_llm(context: dict) -> dict:
     return json.loads(raw.strip())
 
 
-def run_agent() -> list[dict]:
+def run_agent(run_id: str | None = None) -> list[dict]:
     """Main entry point. Returns list of result dicts."""
     print("━" * 60)
     print("  CSIE — Agent 4: ROI Forecast")
@@ -245,10 +251,11 @@ def run_agent() -> list[dict]:
 
     # ── Load data ──────────────────────────────────────────────────
     print("Loading data...")
-    df_agent3   = pd.read_csv(os.path.join(DATA_DIR, 'agent3_output.csv'))
-    df_campaigns= pd.read_csv(os.path.join(DATA_DIR, 'client_campaigns.csv'))
-    df_scores   = pd.read_csv(os.path.join(DATA_DIR, 'scores_weekly.csv'))
-    df_artists  = pd.read_csv(os.path.join(DATA_DIR, 'artists.csv'))
+    df_agent3 = pd.DataFrame(read_agent3(run_id))
+    with get_conn() as conn:
+        df_campaigns= pd.read_sql("SELECT * FROM client_campaigns", conn)
+        df_scores   = pd.read_sql("SELECT * FROM scores_weekly", conn)
+        df_artists  = pd.read_sql("SELECT * FROM artists", conn)
 
     latest_week = df_scores['week_date'].max()
     df_scores = df_scores[df_scores['week_date'] == latest_week].copy()
@@ -359,26 +366,16 @@ def run_agent() -> list[dict]:
                 "projected_brand_lift":  s['projected_brand_lift'],
             })
 
-    # ── Write main output ──────────────────────────────────────────
-    df_out = pd.DataFrame(results, columns=[
-        "artist_id", "artist_name", "brand_category", "reference_budget",
-        "conservative_roi", "base_roi", "optimistic_roi",
-        "base_revenue", "base_conversions", "base_reach", "base_brand_lift",
-        "recommended_scenario", "assumption_1", "assumption_2", "assumption_3",
-        "investment_narrative", "risk_flag", "llm_status", "generated_at",
-    ])
-    df_out.to_csv(OUTPUT, index=False)
+    # ── Write to DB ────────────────────────────────────────────────
+    if run_id:
+        try:
+            upsert_roi_results(run_id, results, detail_rows)
+            print(f"\n  [DB] ROI results saved for run {run_id}")
+        except Exception as _e:
+            print(f"\n  [DB] failed to save results: {_e}")
+            raise
 
-    # ── Write detail output ────────────────────────────────────────
-    df_detail = pd.DataFrame(detail_rows, columns=[
-        "artist_id", "artist_name", "scenario",
-        "projected_roi", "projected_revenue", "projected_conversions",
-        "projected_reach", "projected_brand_lift",
-    ])
-    df_detail.to_csv(OUTPUT_DETAIL, index=False)
 
-    print(f"\n  Written {len(df_out)} rows → {OUTPUT}")
-    print(f"  Written {len(df_detail)} rows → {OUTPUT_DETAIL}")
 
     # ── Console summary ────────────────────────────────────────────
     avg_base_roi = sum(r['base_roi'] for r in results) / len(results) if results else 0
