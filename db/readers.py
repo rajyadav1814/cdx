@@ -335,6 +335,11 @@ def read_pipeline_summary() -> dict:
             run_row = cur.fetchone()
             run_ts = run_row[0].isoformat() if run_row and run_row[0] else None
 
+            # Total artists in pipeline
+            cur.execute("SELECT COUNT(*) FROM artists;")
+            total_artists_row = cur.fetchone()
+            total_artists = int(total_artists_row[0]) if total_artists_row else 0
+
             # Agent 1 summary
             cur.execute(
                 """
@@ -437,7 +442,7 @@ def read_pipeline_summary() -> dict:
 
     return {
         "run_timestamp":      run_ts,
-        "artists_processed":  int(a1[3]) if a1 else 0,
+        "artists_processed":  total_artists,
         "agent1": {
             "status":               "ok",
             "high_opportunities":   int(a1[0]) if a1 else 0,
